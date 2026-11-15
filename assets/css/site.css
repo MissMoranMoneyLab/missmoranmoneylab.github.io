@@ -606,3 +606,77 @@ dialog.pop.closing .card{opacity:0;transform:translateY(8px);transition-duration
 }
 .fld input[type=email]{direction:ltr;text-align:right}
 .btn.soon{cursor:default;pointer-events:none}
+
+/* ===== 15.11.2026 fixes batch (Moran's review) ===== */
+/* 15. no sideways drag on phones (iOS ignores overflow-x on body alone) */
+html,body{overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+
+/* 10. a hidden cookie banner is really gone and never catches taps */
+.ck[hidden]{display:none!important}
+.ck{pointer-events:none}
+.ck.show{pointer-events:auto}
+
+/* 2. gap between the identity tag and the mapping card */
+.ppanel{display:flex;flex-direction:column;gap:14px}
+.ppanel[hidden]{display:none}
+
+/* 1. persona menu floats at the bottom of the screen while the card is in view, lands under it at the end */
+.pseg{position:sticky;bottom:24px;z-index:8;box-shadow:0 6px 20px rgba(29,29,31,.10)}
+
+/* 6. "פעולה": a soft continuous pulse instead of the heartbeat */
+.tagp.act{animation:actpulse 2.6s ease-in-out infinite}
+@keyframes actpulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 10px 30px rgba(41,128,138,.28)}
+  50%{transform:translate(-50%,-50%) scale(1.035);box-shadow:0 12px 42px rgba(101,216,211,.55)}
+}
+/* 7. flow lines: many short segments, faster, always flowing */
+.flow-svg .seg{stroke-dasharray:8 30;stroke-dashoffset:0;animation:flowdash .75s linear infinite;opacity:.9}
+@keyframes flowdash{to{stroke-dashoffset:-38}}
+
+/* 9. compact form pop-ups; scrolling (if ever) stays inside the rounded card */
+.pop .shell{overflow:hidden}
+.pop .card{scrollbar-width:thin;scrollbar-color:#D2D2D7 transparent}
+.pop .card:focus{outline:none}
+.pop.form .card{width:560px;padding:44px 44px 34px}
+.pop.form .ey{font-size:14px;margin-bottom:6px}
+.pop.form .ttl{font-size:30px;letter-spacing:-.6px;margin-bottom:12px}
+.pop.form .body p{font-size:15px;line-height:1.5;margin-bottom:6px;color:var(--ink-2)}
+.pop.form form{margin-top:14px}
+.pop.form .fld{margin-bottom:10px}
+.pop.form .fld>span{font-size:12.5px;margin-bottom:4px}
+.pop.form .fld input{height:44px;border-radius:12px}
+.pop.form .fld textarea{height:84px;border-radius:12px;padding:10px 14px}
+.pop.form .chk{font-size:13px;margin:4px 0 8px}
+.pop.form .center{margin-top:12px}
+.pop.form .center .btn{padding:11px 40px;font-size:15px}
+.pop.form .form-msg{font-size:14px;margin-top:10px;text-align:center}
+
+/* 14. carousel arrows 20% larger */
+.arr{width:44px;height:44px}
+.arr svg{width:11px;height:17px}
+
+/* 16. carousels: smooth native swipe that does not fight vertical scrolling */
+.car,.fgrid,.proc-row{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.pcardm{touch-action:pan-y}
+
+@media (max-width:899px){
+  /* 11. pop-ups centered on phones (cookie preferences stay a bottom sheet) */
+  .pop .shell{align-items:center}
+  .pop .card,.pop.wide .card{transform:translateY(16px)}
+  .ckp .shell{align-items:flex-end}
+  .ckp .card{transform:translateY(40px)}
+  .pop.form .card{padding:48px 22px 24px}
+  .pop.form .ttl{font-size:24px}
+  .pop.form .body p{font-size:14px}
+  /* 12. story brain keeps its proportions, centered */
+  .story .stage-wrap.m .brain{height:auto;max-width:none}
+  /* 13. process cards clip inside the turquoise panel */
+  .proc-panel{overflow:hidden}
+}
+@media (max-width:899px){
+  /* 13b. Moran 15.11: on phones the turquoise fills the whole section width (heading included), no inner rounded panel */
+  .process{padding:0;background:radial-gradient(80% 30% at 22% 18%,rgba(101,216,211,.55) 0%,transparent 70%),radial-gradient(80% 30% at 85% 92%,rgba(152,228,224,.6) 0%,transparent 70%),var(--t4)}
+  .process h2{padding:64px 16px 0}
+  .proc-panel{margin:0;border-radius:0;background:none;padding:28px 0 40px}
+}

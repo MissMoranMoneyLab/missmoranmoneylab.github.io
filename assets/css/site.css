@@ -825,3 +825,4 @@ html,body{overflow-x:hidden}
   .pseg{margin-top:-121px}
 }
 @media (min-width:900px){.personas{padding-bottom:78px}}
+@media (min-width:900px){.pbig .geo{overflow:visible}}  /* QA 16.11: the rings run on below the stage to the end of the purple strip */

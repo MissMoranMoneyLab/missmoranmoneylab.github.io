@@ -802,3 +802,20 @@ html,body{overflow-x:hidden}
 .site-footer :focus-visible{outline-color:#ADB6FF}
 @media (max-width:899px){.site-footer .cols{column-gap:60px}}
 .fo-me .ph img{transform:scale(1.03)}
+@media (min-width:900px){
+  /* QA 15.11 (Moran): ML menu higher, closer to the card */
+  .pbig-wrap{padding-bottom:56px}
+  .pseg{margin-top:-128px}
+}
+@media (min-width:900px){
+  /* QA 15.11 (Moran): no grey strip between the persona background and the participation section */
+  .personas{padding-bottom:0}
+}
+@media (min-width:900px){
+  /* menu sits 40 px above the end of the persona background; the section ends exactly where the background ends */
+  .pbig-wrap{padding-bottom:24px}
+  .pseg{margin-top:-83px;margin-bottom:40px}
+}
+@media (min-width:900px){.pseg{margin-bottom:0}.personas{padding-bottom:40px}}
+/* QA 15.11 (Moran): the ML menu just sits on the persona background; no floating (it showed up over the section heading while scrolling) */
+.pseg{position:relative;bottom:auto}

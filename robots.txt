@@ -1,5 +1,4 @@
-# Preview: indexing is off until the deliberate launch (remove the Disallow then)
 User-agent: *
-Disallow: /
+Allow: /
 
-# Sitemap: https://cherrixlabs.com/sitemap.xml
+Sitemap: https://cherrixlabs.com/sitemap.xml

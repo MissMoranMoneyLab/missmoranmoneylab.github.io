@@ -826,3 +826,11 @@ html,body{overflow-x:hidden}
 }
 @media (min-width:900px){.personas{padding-bottom:78px}}
 @media (min-width:900px){.pbig .geo{overflow:visible}}  /* QA 16.11: the rings run on below the stage to the end of the purple strip */
+@media (min-width:900px){.pbig .geo{transform:translateY(calc(31px / var(--s,1)))}}  /* QA 16.11: rings centered in the strip, so the strip edge cuts them the same at top and bottom */
+@media (min-width:900px){.pbig .geo{transform:translateY(calc(31px / var(--s,1))) scale(1.12)}}  /* outer ring larger than the strip, cut by its top and bottom edges like before */
+@media (min-width:900px){
+  /* QA 16.11 (Moran): more lavender air above the sphere: strip 780 high, the loop moved down */
+  .particip{height:780px}
+  .particip .bgv{top:calc(50% + 46px)}
+  .particip .txt{top:300px}
+}

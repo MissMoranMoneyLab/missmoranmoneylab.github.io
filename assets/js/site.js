@@ -16,8 +16,8 @@
       research:   { action: 'https://docs.google.com/forms/d/e/1FAIpQLScvTnbwC0jzhWWbY9iM_IwJEyodhg_bsHyUkG9wQEIu1rZNnw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', topic: 'entry.647128729' } },
       first:      { action: 'https://docs.google.com/forms/d/e/1FAIpQLScLx6pG5I33XLY3fxkehqto4_7YFBqKkYEZcHB9iul4QhldKw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472' } },
       quote:      { action: '', fields: { quote: '', consent: '' } },
-      // Brevo hosted form (double opt-in set in Brevo): action = https://<id>.sibforms.com/serve/<token>
-      report:     { action: '', brevo: true, fields: { email: 'EMAIL', name: 'FIRSTNAME' } }
+      // Brevo form "דוח המעבדה – אתר", list "דוח המעבדה", double opt-in, confirm page redirects to cherrixlabs.com
+      report:     { action: 'https://48fee61e.sibforms.com/serve/MUIFAFEY49P015n7Mc4Kr4ZxR6ZoRzUh5oMsltJknmPEMq3Fw0axg-pyownl2zTOrCsmNlhvrxzkxvRF_d0dd7o1iw1UgUOM8Fh0jf4smhjfiOUjgzqj2kMMZIoBhBbp24ympSQFEIzP1CxqmT1nIRmnl-GYgmG6DsjQpNCY3RJGZOpPEtPq3972D2iuGWvbWkE5Jaoxj2cBwv0hrA==', brevo: true, fields: { email: 'EMAIL', name: 'FIRSTNAME' } }
     },
     videos: {
       // hero loops: approved by Moran 15.11.2026 (12 s seamless, 30 fps)
@@ -171,7 +171,7 @@
     svg.appendChild(sp);
     var SL = sp.getTotalLength(), K = 64;
     sp.style.strokeDasharray = K + ' ' + (SL + K * 2);
-    if (sp.animate) sp.animate([{ strokeDashoffset: K }, { strokeDashoffset: -SL, offset: .78 }, { strokeDashoffset: -SL }], { duration: 3200, iterations: Infinity, easing: 'linear' });
+    if (sp.animate) sp.animate([{ strokeDashoffset: K }, { strokeDashoffset: -SL, offset: .78 }, { strokeDashoffset: -SL }], { duration: 5600, iterations: Infinity, easing: 'ease-in-out' });
   }
   function drawFlows() { $$('[data-flow]').forEach(function (f) { if (f.offsetParent !== null) drawFlow(f); }); }
   if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(drawFlows); else window.addEventListener('load', drawFlows);
@@ -380,7 +380,13 @@
       var target = conf.fields[k]; if (!target) return;
       var v = fd.get(k); if (k === 'consent') v = v ? 'כן' : ''; if (v !== null && v !== '') out.append(target, v);
     });
-    if (conf.brevo) { out.append('email_address_check', ''); out.append('locale', 'he'); }
+    if (conf.brevo) {
+      // Brevo answers CORS with JSON {success:true|false} (checked 15.11.2026 from cherrixlabs.com), so this is a real confirmation
+      out.append('email_address_check', ''); out.append('locale', 'he');
+      return fetch(conf.action + '?isAjax=1', { method: 'POST', body: out })
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (j) { if (!j || j.success !== true) throw new Error('brevo: ' + JSON.stringify((j && j.errors) || j)); });
+    }
     return fetch(conf.action, { method: 'POST', mode: 'no-cors', body: out });
   }
   $$('.js-form').forEach(function (form) {

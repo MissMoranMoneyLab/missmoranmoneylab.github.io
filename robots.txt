@@ -2,4 +2,4 @@
 User-agent: *
 Disallow: /
 
-# Sitemap: https://cherrixlab.com/sitemap.xml
+# Sitemap: https://cherrixlabs.com/sitemap.xml

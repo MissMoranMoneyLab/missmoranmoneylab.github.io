@@ -819,3 +819,9 @@ html,body{overflow-x:hidden}
 @media (min-width:900px){.pseg{margin-bottom:0}.personas{padding-bottom:40px}}
 /* QA 15.11 (Moran): the ML menu just sits on the persona background; no floating (it showed up over the section heading while scrolling) */
 .pseg{position:relative;bottom:auto}
+@media (min-width:900px){
+  /* QA 16.11 (Moran): figure and menu centered in the purple strip: the space under the menu matches the space above the figure */
+  .pbig-wrap{padding-bottom:62px}
+  .pseg{margin-top:-121px}
+}
+@media (min-width:900px){.personas{padding-bottom:78px}}

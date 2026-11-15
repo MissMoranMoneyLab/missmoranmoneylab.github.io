@@ -11,10 +11,10 @@
     consentDays: 182,               // the choice is kept for 6 months, then the banner asks again
     forms: {
       // Google Forms: action = https://docs.google.com/forms/d/e/<FORM_ID>/formResponse ; fields = site name -> entry.<ID>
-      contact:    { action: '', fields: { name: '', email: '', message: '' } },
-      experiment: { action: '', fields: { name: '', email: '', idea: '', why: '' } },
-      research:   { action: '', fields: { name: '', email: '', topic: '' } },
-      first:      { action: '', fields: { name: '', email: '', blocker: '', invested: '' } },
+      contact:    { action: 'https://docs.google.com/forms/d/e/1FAIpQLScQ87IhnVCdZZ-GD4dab7N3K-eovEEO63zhXKAbbawK0gN2nQ/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', message: 'entry.1909908519' } },
+      experiment: { action: 'https://docs.google.com/forms/d/e/1FAIpQLSc8ua6RD7ydFLOnEZWXE8DpKN3FEfkP_4s8UkaxiMa_Q6HObg/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', idea: 'entry.647128729' } },
+      research:   { action: 'https://docs.google.com/forms/d/e/1FAIpQLScvTnbwC0jzhWWbY9iM_IwJEyodhg_bsHyUkG9wQEIu1rZNnw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', topic: 'entry.647128729' } },
+      first:      { action: 'https://docs.google.com/forms/d/e/1FAIpQLScLx6pG5I33XLY3fxkehqto4_7YFBqKkYEZcHB9iul4QhldKw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472' } },
       quote:      { action: '', fields: { quote: '', consent: '' } },
       // Brevo hosted form (double opt-in set in Brevo): action = https://<id>.sibforms.com/serve/<token>
       report:     { action: '', brevo: true, fields: { email: 'EMAIL', name: 'FIRSTNAME' } }
@@ -159,6 +159,19 @@
     });
     if (!M) { add('M' + (c.l - J) + ' ' + c.cy + ' H' + (c.l - GAP), true); add('M' + (c.r + GAP) + ' ' + c.cy + ' H' + (a.l - GAP - 2), true, 2); }
     else { add('M' + c.cx + ' ' + (c.t - J) + ' V' + (c.t - GAP), true); add('M' + c.cx + ' ' + (c.b + GAP) + ' V' + (a.t - GAP - 2), true, 2); }
+    // spark (Moran 15.11): a glowing dash arrives, circles the "ביטחון" pill and runs on to "פעולה"
+    if (RM.matches) return;
+    var o = 6, x0 = c.l - o, x1 = c.r + o, y0 = c.t - o, y1 = c.b + o, r = (y1 - y0) / 2, A = ' A' + r + ' ' + r + ' 0 0 1 ', d;
+    if (!M) d = 'M' + (c.l - J) + ' ' + c.cy + ' H' + x0 + A + (x0 + r) + ' ' + y0 + ' H' + (x1 - r) + A + x1 + ' ' + c.cy + A + (x1 - r) + ' ' + y1 + ' H' + (x0 + r) + A + x0 + ' ' + c.cy +
+                A + (x0 + r) + ' ' + y0 + ' H' + (x1 - r) + A + x1 + ' ' + c.cy + ' H' + (a.l - GAP - 2);
+    else d = 'M' + c.cx + ' ' + (c.t - J) + ' V' + y0 + ' H' + (x1 - r) + A + x1 + ' ' + c.cy + A + (x1 - r) + ' ' + y1 + ' H' + (x0 + r) + A + x0 + ' ' + c.cy + A + (x0 + r) + ' ' + y0 +
+             ' H' + (x1 - r) + A + x1 + ' ' + c.cy + A + (x1 - r) + ' ' + y1 + ' H' + c.cx + ' V' + (a.t - GAP - 2);
+    var sp = doc.createElementNS(NS, 'path');
+    sp.setAttribute('d', d); sp.setAttribute('fill', 'none'); sp.setAttribute('class', 'spark');
+    svg.appendChild(sp);
+    var SL = sp.getTotalLength(), K = 64;
+    sp.style.strokeDasharray = K + ' ' + (SL + K * 2);
+    if (sp.animate) sp.animate([{ strokeDashoffset: K }, { strokeDashoffset: -SL, offset: .78 }, { strokeDashoffset: -SL }], { duration: 3200, iterations: Infinity, easing: 'linear' });
   }
   function drawFlows() { $$('[data-flow]').forEach(function (f) { if (f.offsetParent !== null) drawFlow(f); }); }
   if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(drawFlows); else window.addEventListener('load', drawFlows);
@@ -289,6 +302,7 @@
     var upd = function () {
       var max = track_.scrollWidth - track_.clientWidth, x = Math.abs(track_.scrollLeft);
       if (prev) prev.disabled = x < 4; if (next) next.disabled = x > max - 4;
+      var nav = next && next.closest('.car-nav'); if (nav) nav.classList.toggle('nofit', max < 4);   // all cards visible: no arrows
     };
     track_.addEventListener('scroll', upd, { passive: true }); window.addEventListener('resize', upd, { passive: true }); upd();
   }

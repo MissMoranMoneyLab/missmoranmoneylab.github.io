@@ -247,7 +247,7 @@ body.menu-open{overflow:hidden}
 .pbig{border-radius:28px;overflow:hidden;border:1px solid #E6E0E5;background:url(../img/persona-card-bg.webp) 0 0/1376px 920px no-repeat,linear-gradient(160deg,#FBFAFE 0%,#FDFCFF 45%,#F8F6FD 100%)}
 .pbig .geo{position:absolute;inset:0;z-index:1}
 .rot{transform-box:view-box;transform-origin:688px 460px}
-.r1{animation:rcw 150s linear infinite}.r2{animation:rccw 110s linear infinite}.r3{animation:rcw 180s linear infinite}
+.r1{animation:rcw 112s linear infinite}.r2{animation:rccw 82s linear infinite}.r3{animation:rcw 135s linear infinite}
 @keyframes rcw{to{transform:rotate(360deg)}}@keyframes rccw{to{transform:rotate(-360deg)}}
 .pfig{position:absolute;left:203px;top:96px;width:549px;height:733px;z-index:3}
 .pfig img{position:absolute;inset:0;width:549px;height:733px;-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 84%,rgba(0,0,0,.04) 98%);mask-image:linear-gradient(to bottom,#000 0%,#000 84%,rgba(0,0,0,.04) 98%);opacity:0;transition:opacity .7s ease-in-out}
@@ -680,3 +680,50 @@ html,body{overflow-x:hidden}
   .process h2{padding:64px 16px 0}
   .proc-panel{margin:0;border-radius:0;background:none;padding:28px 0 40px}
 }
+/* 1b. the floating persona menu: "hidden" on the section blocked sticky; clip keeps the crop without breaking it */
+@supports (overflow:clip){.personas{overflow:clip}}
+@media (max-width:899px){
+  /* QA 15.11: participation on phones zoomed out a little; the frame edges fade into a matching lavender so there is no hard edge */
+  .particip{background:linear-gradient(180deg,#EEE6FF 0%,#F3EAFB 55%,#FBEFF7 100%)}
+  .particip .bgv{transform:scale(.86);transform-origin:50% 55%;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 10%,#000 90%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);
+    -webkit-mask-composite:source-in;
+            mask-image:linear-gradient(to right,transparent 0,#000 10%,#000 90%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);
+            mask-composite:intersect}
+}
+@media (max-width:899px){
+  /* QA 15.11: shorter labnow cards on phones (440 -> 370); objects re-centered and a little smaller so they clear the + */
+  .lcard{height:370px}
+  .lcard .obj{top:calc(225px - var(--bh) * .35);width:calc(var(--bw) * .7);height:calc(var(--bh) * .7);margin-left:calc(var(--bw) * -.35)}
+}
+/* QA 15.11 (Moran: like Apple): carousel arrows back to 36 px, gap 20 */
+.arr{width:36px;height:36px}
+.arr svg{width:9px;height:14px}
+.arrows{gap:20px}
+@media (max-width:899px){
+  /* labnow cards sized like Apple's mobile cards: 260 x 320, 20 gap, a clear peek of the next card */
+  .car{gap:20px;padding:32px 25px 4px;scroll-padding-inline:25px}
+  .lcard{flex:0 0 260px;height:320px}
+  .lcard h3{top:24px;right:22px;left:22px;font-size:26px}
+  .lcard .obj{top:calc(190px - var(--bh) * .3);width:calc(var(--bw) * .6);height:calc(var(--bh) * .6);margin-left:calc(var(--bw) * -.3)}
+  .car-nav{padding:20px 25px 0}
+  /* founder carousel: same width and gap */
+  .fgrid{gap:20px}
+  .fc{flex:0 0 260px}
+}
+@media (min-width:900px){
+  /* QA 15.11 (Moran): on desktop too the turquoise gradient fills the whole section, heading included, no rounded panel */
+  .process{padding:96px 0 0;background:radial-gradient(50% 45% at 20% 10%,rgba(101,216,211,.55) 0%,transparent 70%),radial-gradient(50% 45% at 85% 95%,rgba(152,228,224,.6) 0%,transparent 70%),var(--t4)}
+  .proc-panel{margin:0;border-radius:0;background:none;padding:56px 24px 96px}
+}
+/* spark around "ביטחון" (QA 15.11): one short dash with a soft glow */
+.flow-svg .spark{stroke:#22C3BC;stroke-width:4;stroke-linecap:round;filter:drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 6px #65D8D3) drop-shadow(0 0 14px rgba(34,195,188,.7))}
+@media (prefers-reduced-motion:reduce){.flow-svg .spark{display:none}}
+@media (min-width:900px){
+  /* QA 15.11 (Moran): persona card becomes a full-width background, same look, no rounded card */
+  .pbig-wrap{margin:40px 0 0;overflow:clip;background:url(../img/persona-card-bg.webp) 50% 50%/cover no-repeat,linear-gradient(160deg,#FBFAFE 0%,#FDFCFF 45%,#F8F6FD 100%)}
+  .pbig{border:0;border-radius:0;background:none;overflow:visible}
+}
+/* QA 15.11: labnow heading in black; arrows only when the cards do not all fit, aligned to the last card */
+.labnow h2 .grad-text{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--ink)}
+.car-nav.nofit{display:none}

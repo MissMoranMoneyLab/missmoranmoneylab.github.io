@@ -171,7 +171,7 @@
     svg.appendChild(sp);
     var SL = sp.getTotalLength(), K = 64;
     sp.style.strokeDasharray = K + ' ' + (SL + K * 2);
-    if (sp.animate) sp.animate([{ strokeDashoffset: K }, { strokeDashoffset: -SL, offset: .78 }, { strokeDashoffset: -SL }], { duration: 5600, iterations: Infinity, easing: 'ease-in-out' });
+    if (sp.animate) sp.animate([{ strokeDashoffset: K }, { strokeDashoffset: -SL, offset: .78 }, { strokeDashoffset: -SL }], { duration: 8200, iterations: Infinity, easing: 'ease-in-out' });
   }
   function drawFlows() { $$('[data-flow]').forEach(function (f) { if (f.offsetParent !== null) drawFlow(f); }); }
   if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(drawFlows); else window.addEventListener('load', drawFlows);

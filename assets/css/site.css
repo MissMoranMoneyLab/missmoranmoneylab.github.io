@@ -247,7 +247,7 @@ body.menu-open{overflow:hidden}
 .pbig{border-radius:28px;overflow:hidden;border:1px solid #E6E0E5;background:url(../img/persona-card-bg.webp) 0 0/1376px 920px no-repeat,linear-gradient(160deg,#FBFAFE 0%,#FDFCFF 45%,#F8F6FD 100%)}
 .pbig .geo{position:absolute;inset:0;z-index:1}
 .rot{transform-box:view-box;transform-origin:688px 460px}
-.r1{animation:rcw 112s linear infinite}.r2{animation:rccw 82s linear infinite}.r3{animation:rcw 135s linear infinite}
+.r1{animation:rcw 90s linear infinite}.r2{animation:rccw 66s linear infinite}.r3{animation:rcw 108s linear infinite}
 @keyframes rcw{to{transform:rotate(360deg)}}@keyframes rccw{to{transform:rotate(-360deg)}}
 .pfig{position:absolute;left:203px;top:96px;width:549px;height:733px;z-index:3}
 .pfig img{position:absolute;inset:0;width:549px;height:733px;-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 84%,rgba(0,0,0,.04) 98%);mask-image:linear-gradient(to bottom,#000 0%,#000 84%,rgba(0,0,0,.04) 98%);opacity:0;transition:opacity .7s ease-in-out}
@@ -833,4 +833,21 @@ html,body{overflow-x:hidden}
   .particip{height:780px}
   .particip .bgv{top:calc(50% + 46px)}
   .particip .txt{top:300px}
+}
+@media (max-width:899px){
+  /* QA 16.11 mobile (Moran) */
+  /* process cards the same size as the labnow cards */
+  .proc-row{gap:20px;padding:0 25px 8px;scroll-padding-inline:25px}
+  .pcard{flex:0 0 260px;min-height:320px}
+  /* participation: no side fade cutting the image; the loop fills the width again */
+  .particip .bgv{transform:none;-webkit-mask-image:none;mask-image:none}
+  /* personas: a full-width background, not a card; figure and its button a little lower; arrows closer to the figure */
+  .pcardm{width:100%;max-width:none;margin:16px 0 0;border-radius:0;height:590px}
+  .pcardm .figm{top:96px}
+  .pcardm .who{top:171px}
+  .parr{margin-top:14px}
+}
+@media (max-width:899px){
+  .pcardm{border:0;box-shadow:none;height:650px}
+  .parr{position:relative;z-index:5;margin-top:-70px;padding-bottom:26px}
 }

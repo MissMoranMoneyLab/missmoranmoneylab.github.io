@@ -870,3 +870,18 @@ html,body{overflow-x:hidden}
     mask-image:linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%)}
   .particip .txt{z-index:2}
 }
+@media (max-width:899px){
+  /* QA 16.11 06:30 (Moran): the zoomed-out mobile loop showed its frame on the sides; back to the clean full-width loop.
+     A real zoom-out on phones needs a wider mobile render from the design agent. */
+  .particip::before{content:none}
+  .particip .bgv{transform:none;-webkit-mask-image:none;mask-image:none}
+}
+@media (max-width:899px){
+  /* QA 16.11 (Moran: "העיגול חתוך"): phones show the wide desktop loop, sized so the whole sphere and hand fit,
+     on the lavender background with a soft fade top and bottom */
+  .particip{background:linear-gradient(180deg,#EEE6FF 0%,#F3EAFB 55%,#FBEFF7 100%)}
+  .particip .bgv{inset:auto;left:50%;top:50%;width:250%;height:auto;aspect-ratio:1920/1334;transform:translate(-50%,-46%);
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%);
+            mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%)}
+}
+@media (max-width:899px){.particip .bgv{width:205%;transform:translate(-50%,-44%)}}

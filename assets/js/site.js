@@ -28,7 +28,7 @@
       // participation loops: approved by Moran 15.11.2026 (12 s seamless, marble hand and particle sphere); heavier, mounted only near the section
       participation: {
         desktop: { webm: '/assets/video/participation-desktop.webm', mp4: '/assets/video/participation-desktop.mp4' },
-        mobile:  { webm: '/assets/video/participation-mobile.webm',  mp4: '/assets/video/participation-mobile.mp4' }
+        mobile:  { webm: '/assets/video/participation-desktop.webm', mp4: '/assets/video/participation-desktop.mp4' }   // 16.11: phones use the wide loop so the whole sphere shows
       }
     }
   };

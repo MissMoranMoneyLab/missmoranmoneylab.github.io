@@ -851,3 +851,22 @@ html,body{overflow-x:hidden}
   .pcardm{border:0;box-shadow:none;height:650px}
   .parr{position:relative;z-index:5;margin-top:-70px;padding-bottom:26px}
 }
+@media (max-width:899px){
+  /* QA 16.11 mobile: persona arrows closer to the figure */
+  .parr{margin-top:-96px}
+  /* participation zoomed out like desktop: smaller loop on lavender, only a thin soft edge (no wide side fade) */
+  .particip .bgv{transform:scale(.86);transform-origin:50% 60%;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 4%,#000 96%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%);
+    -webkit-mask-composite:source-in;
+    mask-image:linear-gradient(to right,transparent 0,#000 4%,#000 96%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%);
+    mask-composite:intersect}
+}
+@media (max-width:899px){
+  /* the zoomed-out loop sits on a blurred copy of itself, so its soft edges melt into the same colors */
+  .particip{position:relative;overflow:hidden}
+  .particip::before{content:"";position:absolute;inset:-60px;background:url(../img/participation-mobile-poster.webp) 50% 60%/cover no-repeat;filter:blur(30px) saturate(1.05);opacity:.95;z-index:0;pointer-events:none}
+  .particip .bgv{z-index:1;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  .particip .txt{z-index:2}
+}

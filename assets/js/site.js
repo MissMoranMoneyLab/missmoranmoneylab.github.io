@@ -332,6 +332,17 @@
     if (!cur || cur === next) { show(); return; }
     if (animate) { cur.classList.add('out'); setTimeout(show, 200); } else show();
   }
+  /* header "קבלת דו״ח מעבדה": opens the report sign-up pop-up on the homepage; from inner pages it goes to /#report, which opens it on load */
+  doc.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-report]'); if (!a || !doc.getElementById('dlg-report')) return;
+    e.preventDefault(); var op = a;
+    if (a.closest('#mmenu') && menuBtn) { setMenu(false); op = menuBtn; }
+    openDlg('dlg-report', op);
+  });
+  if (location.hash === '#report' && doc.getElementById('dlg-report')) {
+    history.replaceState(null, '', location.pathname + location.search);
+    setTimeout(function () { openDlg('dlg-report', $('.nav-cta') || null); }, 300);
+  }
   function whyReset(d) { whySet(d, 1, false, false); }
   // focus stays inside the modal (Tab and Shift+Tab cycle)
   doc.addEventListener('keydown', function (e) {

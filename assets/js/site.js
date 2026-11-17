@@ -311,9 +311,49 @@
 
   /* ------------------------------------------------------------------ pop-ups on <dialog> */
   var lastFocus = null;
+  // page scroll locked while a pop-up is open and restored to the exact position (iOS ignores overflow:hidden alone)
+  var lockY = 0, locked = false;
+  function lockScroll(on) {
+    var b = doc.body;
+    if (on && !locked) { lockY = window.scrollY; b.style.position = 'fixed'; b.style.top = -lockY + 'px'; b.style.left = '0'; b.style.right = '0'; b.style.width = '100%'; locked = true; }
+    else if (!on && locked) { b.style.position = ''; b.style.top = ''; b.style.left = ''; b.style.right = ''; b.style.width = ''; locked = false; root.style.scrollBehavior = 'auto'; window.scrollTo(0, lockY); root.style.scrollBehavior = ''; }
+  }
+  /* "למה קמה המעבדה?": two steps in one modal, always opens on step 01 */
+  function whySet(d, n, animate, focusHead) {
+    var cur = $('.st:not([hidden])', d), next = $('[data-why-st="' + n + '"]', d);
+    $$('.steps [data-why-go]', d).forEach(function (b) { if (b.getAttribute('data-why-go') === String(n)) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+    d.setAttribute('aria-labelledby', 'whylab-h' + n);
+    var show = function () {
+      if (cur && cur !== next) { cur.hidden = true; cur.classList.remove('out'); }
+      next.hidden = false; var wb = $('.wbody', next); if (wb) wb.scrollTop = 0;
+      if (animate) { next.classList.add('out'); requestAnimationFrame(function () { requestAnimationFrame(function () { next.classList.remove('out'); }); }); }
+      if (focusHead) { var h = $('h2', next); if (h) h.focus({ preventScroll: true }); }
+    };
+    if (!cur || cur === next) { show(); return; }
+    if (animate) { cur.classList.add('out'); setTimeout(show, 200); } else show();
+  }
+  function whyReset(d) { whySet(d, 1, false, false); }
+  // focus stays inside the modal (Tab and Shift+Tab cycle)
+  doc.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var d = doc.getElementById('dlg-whylab'); if (!d || !d.open) return;
+    var f = $$('button:not([disabled])', d).filter(function (el) { return el.offsetParent !== null && !el.closest('[hidden]'); });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1], a = doc.activeElement;
+    if (e.shiftKey && (a === first || !d.contains(a) || a === $('.card', d))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (a === last || !d.contains(a))) { e.preventDefault(); first.focus(); }
+  });
+  doc.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-why-go]'); if (!b) return;
+    var d = b.closest('dialog'), n = b.getAttribute('data-why-go');
+    if ($('[data-why-st="' + n + '"]', d).hidden === false) return;
+    whySet(d, n, true, !b.closest('.steps'));
+  });
   function openDlg(id, opener) {
     var d = doc.getElementById(id); if (!d) return;
     lastFocus = opener || doc.activeElement;
+    if (d.id === 'dlg-whylab') whyReset(d);
+    if (!$('dialog[open]')) lockScroll(true);
     if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
     var card = $('.card', d); if (card) { card.setAttribute('tabindex', '-1'); card.focus({ preventScroll: true }); }   // no focus ring on the × when opened by touch
     doc.body.style.overflow = 'hidden';
@@ -325,14 +365,14 @@
     d.classList.remove('show'); d.classList.add('closing');
     setTimeout(function () {
       d.classList.remove('closing'); d.close ? d.close() : d.removeAttribute('open');
-      if (!$('dialog[open]')) doc.body.style.overflow = '';
+      if (!$('dialog[open]')) { doc.body.style.overflow = ''; lockScroll(false); }
       if (d.id === 'dlg-video') $('[data-vframe]', d).innerHTML = '';
       if (then) then(); else if (lastFocus && lastFocus.focus) lastFocus.focus();
     }, RM.matches ? 0 : 200);
   }
   doc.addEventListener('click', function (e) {
     var o = e.target.closest('[data-open]');
-    if (o) { e.preventDefault(); openDlg(o.getAttribute('data-open'), o); return; }
+    if (o) { e.preventDefault(); var op = o; if (o.closest('#mmenu') && menuBtn) { setMenu(false); op = menuBtn; } openDlg(o.getAttribute('data-open'), op); return; }
     var c = e.target.closest('[data-close]');
     if (c) { closeDlg(c.closest('dialog')); return; }
     var sw = e.target.closest('[data-swap]');

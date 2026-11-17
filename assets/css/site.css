@@ -885,3 +885,68 @@ html,body{overflow-x:hidden}
             mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%)}
 }
 @media (max-width:899px){.particip .bgv{width:205%;transform:translate(-50%,-44%)}}
+
+/* ------------------------------------------------------------------ "למה קמה המעבדה?" modal (design 17.11.2026, site-assets README 10) */
+.why .card{width:820px;height:800px;max-height:calc(100svh - 48px);padding:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.25);transition:opacity .3s ease-out,transform .3s ease-out}
+.why .lh{position:absolute;left:0;right:0;top:0;height:420px;pointer-events:none;background:radial-gradient(ellipse 820px 470px at 410px -150px,#ADB6FF 0%,#C6B1FA 22%,#E2C6F8 42%,#F4EBFB 62%,#FCFAFE 80%,rgba(253,252,254,0) 100%)}
+.why .x{top:24px;left:24px;background:rgba(255,255,255,.75);z-index:6}
+.why .x:hover{background:#fff}
+.why .steps{position:absolute;top:17px;left:65px;z-index:6;display:flex;direction:ltr}
+.why .steps button{width:44px;height:44px;display:grid;place-items:center;font:500 13px Chivo,Arial,sans-serif;letter-spacing:2px;color:#AEAEB2;transition:color .15s ease;text-underline-offset:6px;text-decoration-thickness:1.5px}
+.why .steps button:hover,.why .steps button[aria-current]{color:#1D1D1F}
+.why .steps button[aria-current]{text-decoration-line:underline}
+.why .st{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;transition:opacity .2s ease}
+.why .st.out{opacity:0}
+.why .st[hidden]{display:none}
+.why .top{position:relative;height:250px;flex:none}
+.why .st2 .top{height:200px}
+.why .top img{position:absolute;left:24px;top:26px;width:360px;height:auto;z-index:1;-webkit-mask-image:linear-gradient(#000 52%,transparent 86%);mask-image:linear-gradient(#000 52%,transparent 86%)}
+.why .st2 .top img{left:110px;top:22px;width:200px}
+.why .halo{position:absolute;left:204px;top:-64px;width:280px;height:280px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(244,91,166,.30) 0%,rgba(150,110,255,.18) 32%,rgba(123,97,255,.06) 54%,rgba(255,255,255,0) 70%)}
+.why .st2 .halo{left:70px;top:-50px}
+.why .pt{position:absolute;left:0;top:0;z-index:1;overflow:visible;pointer-events:none}
+.why .st2 .pt{z-index:0}
+.why .pt-m{display:none}
+.why .tt{position:absolute;right:72px;bottom:18px;z-index:2;text-align:right}
+.why .ch{font:500 14px Chivo,Arial,sans-serif;letter-spacing:2.4px;color:#7B61FF;margin-bottom:14px}
+.why h2{font-size:56px;font-weight:700;line-height:.98;letter-spacing:-2px;margin:0;color:var(--ink);text-shadow:0 0 40px rgba(255,255,255,.9);text-wrap:balance}
+.why h2:focus{outline:none}
+.why .wbody{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 72px 0;scrollbar-width:thin;scrollbar-color:#D2D2D7 transparent}
+.why .wbody p{max-width:640px;margin:0;font-size:18px;line-height:1.62;color:#3A3A3C;text-wrap:pretty}
+.why .wbody p+p{margin-top:16px}
+.why .foot{flex:none;display:flex;padding:24px 72px 48px}
+.why .foot .btn{height:52px;padding:0 28px;gap:10px}
+@media (max-width:899px){
+  .why .shell{align-items:flex-end;padding:0}
+  .why .card{width:100%;height:calc(100% - 44px);max-height:none;border-radius:28px 28px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.18);transform:translateY(100%)}
+  dialog.pop.why.closing .card{transform:translateY(100%);transition-duration:.2s}
+  .why .lh{height:330px;background:radial-gradient(ellipse 420px 300px at 195px -110px,#ADB6FF 0%,#C6B1FA 22%,#E2C6F8 42%,#F4EBFB 62%,#FCFAFE 80%,rgba(253,252,254,0) 100%)}
+  .why .x{top:16px;left:16px;width:36px;height:36px}
+  .why .steps{top:12px;left:52px}
+  .why .steps button{font-size:12px}
+  .why .top,.why .st2 .top{height:210px}
+  .why .top img{left:6px;top:34px;width:200px;-webkit-mask-image:linear-gradient(#000 52%,transparent 88%);mask-image:linear-gradient(#000 52%,transparent 88%)}
+  .why .st2 .top img{left:40px;top:40px;width:120px}
+  .why .halo{left:84px;top:-38px;width:200px;height:200px}
+  .why .st2 .halo{left:-5px;top:-20px}
+  .why .pt-d{display:none}
+  .why .pt-m{display:block}
+  .why .tt{right:24px;bottom:12px}
+  .why .ch{font-size:12px;letter-spacing:2.2px;margin-bottom:8px}
+  .why h2{font-size:34px;line-height:1;letter-spacing:-1.1px;max-width:220px;text-shadow:0 0 30px rgba(255,255,255,.9)}
+  .why .wbody{padding:18px 24px 40px}
+  .why .wbody p{font-size:16px;line-height:1.6}
+  .why .wbody p+p{margin-top:14px}
+  .why .foot{position:relative;padding:14px 24px calc(30px + env(safe-area-inset-bottom));background:#fff}
+  .why .foot::before{content:"";position:absolute;left:0;right:0;top:-46px;height:46px;pointer-events:none;background:linear-gradient(rgba(255,255,255,0),#fff)}
+  .why .foot .btn{width:100%;height:50px}
+}
+@media (prefers-reduced-motion:reduce){
+  .why .card,dialog.pop.why.closing .card{transform:none !important;transition:opacity .2s ease}
+}
+/* mobile: the whole composition centered in the section (Moran 16-17.11): sphere and hand fully in view,
+   their center on the section center, the text block centered over them */
+@media (max-width:899px){
+  .particip .bgv{width:172%;transform:translate(-51.5%,calc(-46% - 40px))}   /* 17.11 Moran: the hand and everything a bit higher */
+  .particip .txt{top:calc(50% - 40px);transform:translateY(-50%)}
+}

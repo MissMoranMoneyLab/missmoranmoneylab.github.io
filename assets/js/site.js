@@ -320,17 +320,23 @@
   }
   /* "למה קמה המעבדה?": two steps in one modal, always opens on step 01 */
   function whySet(d, n, animate, focusHead) {
-    var cur = $('.st:not([hidden])', d), next = $('[data-why-st="' + n + '"]', d);
+    var steps = $$('[data-why-st]', d), next = $('[data-why-st="' + n + '"]', d); if (!next) return;
+    clearTimeout(d._wt); d._wt = 0;
     $$('.tabs [data-why-go]', d).forEach(function (b) { if (b.getAttribute('data-why-go') === String(n)) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
     var hh = $('h2', next); if (hh && hh.id) d.setAttribute('aria-labelledby', hh.id);
     var show = function () {
-      if (cur && cur !== next) { cur.hidden = true; cur.classList.remove('out'); }
-      next.hidden = false; var wb = $('.sc', next); if (wb) wb.scrollTop = 0; var cd = $('.card', d); if (cd) cd.classList.remove('scrolled');
-      if (animate) { next.classList.add('out'); requestAnimationFrame(function () { requestAnimationFrame(function () { next.classList.remove('out'); }); }); }
-      if (focusHead) { var h = $('h2', next); if (h) h.focus({ preventScroll: true }); }
+      d._wt = 0;
+      steps.forEach(function (s) { if (s !== next) { s.hidden = true; s.classList.remove('out'); } });
+      var was = next.hidden; next.hidden = false;
+      if (was) { var wb = $('.sc', next); if (wb) wb.scrollTop = 0; }
+      if (animate && was) { next.classList.add('out'); void next.offsetWidth; }
+      next.classList.remove('out');
+      if (focusHead && hh) hh.focus({ preventScroll: true });
     };
-    if (!cur || cur === next) { show(); return; }
-    if (animate) { cur.classList.add('out'); setTimeout(show, 200); } else show();
+    var vis = steps.filter(function (s) { return !s.hidden && s !== next; });
+    if (!vis.length || !animate) { show(); return; }
+    vis.forEach(function (s) { s.classList.add('out'); });
+    d._wt = setTimeout(show, 160);
   }
   /* header "קבלת דו״ח מעבדה": opens the report sign-up pop-up on the homepage; from inner pages it goes to /#report, which opens it on load */
   doc.addEventListener('click', function (e) {
@@ -356,13 +362,14 @@
   });
   doc.addEventListener('click', function (e) {
     var b = e.target.closest('[data-why-go]'); if (!b) return;
-    var d = b.closest('dialog'), n = b.getAttribute('data-why-go');
-    if ($('[data-why-st="' + n + '"]', d).hidden === false) return;
+    var d = b.closest('dialog'), n = b.getAttribute('data-why-go'), t = $('[data-why-st="' + n + '"]', d);
+    if (!t || (!t.hidden && !d._wt && !t.classList.contains('out'))) return;
     whySet(d, n, true, !b.closest('.tabs'));
   });
   function openDlg(id, opener) {
     var d = doc.getElementById(id); if (!d) return;
     lastFocus = opener || doc.activeElement;
+    $$('img[loading="lazy"]', d).forEach(function (im) { im.loading = 'eager'; });   // every step image ready before the first tab switch
     if (d.classList.contains('tabm')) whyReset(d);
     var sr = $('.scr', d); if (sr) sr.scrollTop = 0;
     if (!$('dialog[open]')) lockScroll(true);

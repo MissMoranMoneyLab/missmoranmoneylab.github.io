@@ -886,67 +886,162 @@ html,body{overflow-x:hidden}
 }
 @media (max-width:899px){.particip .bgv{width:205%;transform:translate(-50%,-44%)}}
 
-/* ------------------------------------------------------------------ "למה קמה המעבדה?" modal (design 17.11.2026, site-assets README 10) */
-.why .card{width:820px;height:800px;max-height:calc(100svh - 48px);padding:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.25);transition:opacity .3s ease-out,transform .3s ease-out}
-.why .lh{position:absolute;left:0;right:0;top:0;height:420px;pointer-events:none;background:radial-gradient(ellipse 820px 470px at 410px -150px,#ADB6FF 0%,#C6B1FA 22%,#E2C6F8 42%,#F4EBFB 62%,#FCFAFE 80%,rgba(253,252,254,0) 100%)}
-.why .x{top:24px;left:24px;background:rgba(255,255,255,.75);z-index:6}
-.why .x:hover{background:#fff}
-.why .steps{position:absolute;top:17px;left:65px;z-index:6;display:flex;direction:ltr}
-.why .steps button{width:44px;height:44px;display:grid;place-items:center;font:500 13px Chivo,Arial,sans-serif;letter-spacing:2px;color:#AEAEB2;transition:color .15s ease;text-underline-offset:6px;text-decoration-thickness:1.5px}
-.why .steps button:hover,.why .steps button[aria-current]{color:#1D1D1F}
-.why .steps button[aria-current]{text-decoration-line:underline}
-.why .st{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;transition:opacity .2s ease}
-.why .st.out{opacity:0}
-.why .st[hidden]{display:none}
-.why .top{position:relative;height:250px;flex:none}
-.why .st2 .top{height:200px}
-.why .top img{position:absolute;left:24px;top:26px;width:360px;height:auto;z-index:1;-webkit-mask-image:linear-gradient(#000 52%,transparent 86%);mask-image:linear-gradient(#000 52%,transparent 86%)}
-.why .st2 .top img{left:110px;top:22px;width:200px}
-.why .halo{position:absolute;left:204px;top:-64px;width:280px;height:280px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(244,91,166,.30) 0%,rgba(150,110,255,.18) 32%,rgba(123,97,255,.06) 54%,rgba(255,255,255,0) 70%)}
-.why .st2 .halo{left:70px;top:-50px}
-.why .pt{position:absolute;left:0;top:0;z-index:1;overflow:visible;pointer-events:none}
-.why .st2 .pt{z-index:0}
-.why .pt-m{display:none}
-.why .tt{position:absolute;right:72px;bottom:18px;z-index:2;text-align:right}
-.why .ch{font:500 14px Chivo,Arial,sans-serif;letter-spacing:2.4px;color:#7B61FF;margin-bottom:14px}
-.why h2{font-size:56px;font-weight:700;line-height:.98;letter-spacing:-2px;margin:0;color:var(--ink);text-shadow:0 0 40px rgba(255,255,255,.9);text-wrap:balance}
-.why h2:focus{outline:none}
-.why .wbody{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 72px 0;scrollbar-width:thin;scrollbar-color:#D2D2D7 transparent}
-.why .wbody p{max-width:640px;margin:0;font-size:18px;line-height:1.62;color:#3A3A3C;text-wrap:pretty}
-.why .wbody p+p{margin-top:16px}
-.why .foot{flex:none;display:flex;padding:24px 72px 48px}
-.why .foot .btn{height:52px;padding:0 28px;gap:10px}
-@media (max-width:899px){
-  .why .shell{align-items:flex-end;padding:0}
-  .why .card{width:100%;height:calc(100% - 44px);max-height:none;border-radius:28px 28px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.18);transform:translateY(100%)}
-  dialog.pop.why.closing .card{transform:translateY(100%);transition-duration:.2s}
-  .why .lh{height:330px;background:radial-gradient(ellipse 420px 300px at 195px -110px,#ADB6FF 0%,#C6B1FA 22%,#E2C6F8 42%,#F4EBFB 62%,#FCFAFE 80%,rgba(253,252,254,0) 100%)}
-  .why .x{top:16px;left:16px;width:36px;height:36px}
-  .why .steps{top:12px;left:52px}
-  .why .steps button{font-size:12px}
-  .why .top,.why .st2 .top{height:210px}
-  .why .top img{left:6px;top:34px;width:200px;-webkit-mask-image:linear-gradient(#000 52%,transparent 88%);mask-image:linear-gradient(#000 52%,transparent 88%)}
-  .why .st2 .top img{left:40px;top:40px;width:120px}
-  .why .halo{left:84px;top:-38px;width:200px;height:200px}
-  .why .st2 .halo{left:-5px;top:-20px}
-  .why .pt-d{display:none}
-  .why .pt-m{display:block}
-  .why .tt{right:24px;bottom:12px}
-  .why .ch{font-size:12px;letter-spacing:2.2px;margin-bottom:8px}
-  .why h2{font-size:34px;line-height:1;letter-spacing:-1.1px;max-width:220px;text-shadow:0 0 30px rgba(255,255,255,.9)}
-  .why .wbody{padding:18px 24px 40px}
-  .why .wbody p{font-size:16px;line-height:1.6}
-  .why .wbody p+p{margin-top:14px}
-  .why .foot{position:relative;padding:14px 24px calc(30px + env(safe-area-inset-bottom));background:#fff}
-  .why .foot::before{content:"";position:absolute;left:0;right:0;top:-46px;height:46px;pointer-events:none;background:linear-gradient(rgba(255,255,255,0),#fff)}
-  .why .foot .btn{width:100%;height:50px}
-}
-@media (prefers-reduced-motion:reduce){
-  .why .card,dialog.pop.why.closing .card{transform:none !important;transition:opacity .2s ease}
-}
 /* mobile: the whole composition centered in the section (Moran 16-17.11): sphere and hand fully in view,
    their center on the section center, the text block centered over them */
 @media (max-width:899px){
   .particip .bgv{width:172%;transform:translate(-51.5%,calc(-46% - 40px))}   /* 17.11 Moran: the hand and everything a bit higher */
   .particip .txt{top:calc(50% - 40px);transform:translateY(-50%)}
+}
+
+/* ------------------------------------------------------------------ tabbed modals "למה קמה המעבדה?" and "אני מאמינה" (design handoff 18.11.2026, MODALS_HANDOFF_18NOV 1 to 3) */
+.tabm .shell{align-items:flex-start;padding:30px 24px}
+.tabm .card{width:820px;height:752px;max-height:calc(100svh - 60px);padding:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.25);transition:opacity .3s ease-out,transform .3s ease-out}
+.tabm.cr .card{height:840px}
+.tabm .lh{position:absolute;left:0;right:0;top:0;height:420px;pointer-events:none;background:radial-gradient(ellipse 820px 470px at 410px -150px,#ADB6FF 0%,#C6B1FA 22%,#E2C6F8 42%,#F4EBFB 62%,#FCFAFE 80%,rgba(253,252,254,0) 100%)}
+.tabm.cr .lh{background:radial-gradient(ellipse 820px 470px at 410px -150px,#65D8D3 0%,#98E4E0 22%,#C9F0EF 42%,#E2F6F5 62%,#F4FBFB 80%,rgba(244,251,251,0) 100%)}
+.tabm .hb{position:absolute;left:0;right:0;top:0;height:120px;z-index:5;pointer-events:none;opacity:0;transition:opacity .2s ease;background:linear-gradient(rgba(255,255,255,.97) 72%,rgba(255,255,255,0))}
+.tabm .card.scrolled .hb{opacity:1}
+.tabm .x{top:24px;left:24px;background:rgba(255,255,255,.75);z-index:7}
+.tabm .x:hover{background:#fff}
+.tabm .tabs{position:absolute;top:68px;right:72px;z-index:7;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(255,255,255,.55);border:1px solid rgba(29,29,31,.10)}
+.tabm .tabs button{position:relative;font-size:13px;font-weight:500;line-height:16px;padding:5px 13px;border-radius:999px;color:#6E6E73;white-space:nowrap;transition:background-color .2s ease,color .2s ease}
+.tabm .tabs button::after{content:"";position:absolute;left:-1px;right:-1px;top:-9px;bottom:-9px}
+.tabm .tabs button:hover{color:#1D1D1F}
+.tabm .tabs button[aria-current]{background:#1D1D1F;color:#fff}
+.tabm .st{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;transition:opacity .2s ease}
+.tabm .st.out{opacity:0}
+.tabm .st[hidden]{display:none}
+.tabm .sc{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:112px 72px 20px;scrollbar-width:thin;scrollbar-color:#D2D2D7 transparent}
+.tabm .art{position:absolute;left:0;top:0;width:820px;height:260px;pointer-events:none}
+.tabm .art img{position:absolute;z-index:1;height:auto}
+.tabm .halo{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(244,91,166,.30) 0%,rgba(150,110,255,.18) 32%,rgba(123,97,255,.06) 54%,rgba(255,255,255,0) 70%)}
+.tabm.cr .halo{background:radial-gradient(circle,rgba(101,216,211,.38) 0%,rgba(152,228,224,.2) 34%,rgba(255,255,255,0) 70%)}
+.tabm .pt{position:absolute;left:0;top:0;z-index:1;overflow:visible}
+.tabm .pt-m{display:none}
+.why .st1 .halo{left:204px;top:-64px}
+.why .st1 .art img{left:24px;top:26px;width:360px;-webkit-mask-image:linear-gradient(#000 52%,transparent 86%);mask-image:linear-gradient(#000 52%,transparent 86%)}
+.why .st2 .halo{left:6px;top:-50px}
+.why .st2 .art img{left:80px;top:30px;width:132px;-webkit-mask-image:linear-gradient(#000 60%,transparent 92%);mask-image:linear-gradient(#000 60%,transparent 92%)}
+.cr .art img{-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 22%),linear-gradient(#000 70%,transparent 98%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0%,#000 22%),linear-gradient(#000 70%,transparent 98%);mask-composite:intersect}
+.cr .st1 .halo{left:42px;top:-53px}
+.cr .st1 .art img{left:51px;top:24px;width:283px}
+.cr .st2 .halo{left:50px;top:-67px}
+.cr .st2 .art img{left:54px;top:31px;width:251px}
+.tabm h2{position:relative;z-index:2;max-width:640px;margin:0;font-size:56px;font-weight:700;line-height:.98;letter-spacing:-2px;color:var(--ink);text-shadow:0 0 40px rgba(255,255,255,.9);text-wrap:balance}
+.tabm h2:focus{outline:none}
+.tabm h2 .mb{display:none}
+.tabm .wbody{position:relative;z-index:2;max-width:640px;margin-top:28px}
+.tabm .wbody p{margin:0;font-size:18px;line-height:1.62;color:#3A3A3C;text-wrap:pretty}
+.why .wbody p+p{margin-top:16px}
+.cr .wbody .ld{font-size:20px;font-weight:700;color:#1D1D1F;margin-bottom:10px}
+.cr .wbody ul{list-style:none;margin:0 0 18px;padding:0}
+.cr .wbody li{font-size:17px;line-height:1.45;color:#3A3A3C;padding:4px 0}
+.cr .wbody li.strong{font-weight:700;color:#1D1D1F}
+.cr .wbody .cl0{font-weight:700;color:#29808A;margin-top:4px}
+.cr .wbody .cl1{margin-top:8px}
+.cr .wbody .cl2{margin-top:6px;font-weight:500;color:#1D1D1F}
+.cr .pq{margin:0 0 16px;padding:0 18px 0 0;border-right:2px solid #65D8D3;unicode-bidi:isolate}
+.cr .wbody .pq p{font-size:24px;line-height:1.35;font-weight:700;color:#29808A}
+.cr .st2 .wbody>p{font-size:17px;line-height:1.6}
+.cr .st2 .wbody>p+p{margin-top:9px}
+.cr .wbody .fin{font-weight:700;color:#1D1D1F}
+.tabm .foot{flex:none;display:flex;justify-content:flex-end;padding:24px 72px 48px}
+.tabm .foot .btn{height:46px;padding:0 28px}
+.hbtns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:6px}
+.hero-text .hbtns .btn{margin-top:0}
+.btn-gl{background:rgba(255,255,255,.6);color:#1D1D1F;border:1px solid #1D1D1F;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);box-shadow:none !important}
+.btn-gl:hover{background:rgba(255,255,255,.85)}
+.btn-gl:active{background:#fff}
+dialog.pop.instant::backdrop{opacity:1;transition:none}
+@media (max-width:899px){
+  .tabm .shell{align-items:flex-end;padding:0}
+  .tabm .card,.tabm.cr .card{width:100%;height:calc(100% - 44px);max-height:none;border-radius:28px 28px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.18);transform:translateY(100%)}
+  dialog.pop.tabm.closing .card{transform:translateY(100%);transition-duration:.2s}
+  .tabm .lh{height:330px;background:radial-gradient(ellipse 420px 300px at 195px -110px,#ADB6FF 0%,#C6B1FA 22%,#E2C6F8 42%,#F4EBFB 62%,#FCFAFE 80%,rgba(253,252,254,0) 100%)}
+  .tabm.cr .lh{background:radial-gradient(ellipse 420px 300px at 195px -110px,#65D8D3 0%,#98E4E0 22%,#C9F0EF 42%,#E2F6F5 62%,#F4FBFB 80%,rgba(244,251,251,0) 100%)}
+  .tabm .hb{height:66px}
+  .tabm .x{top:16px;left:16px;width:36px;height:36px}
+  .tabm .tabs{top:18px;right:20px}
+  .tabm .sc{padding:74px 24px 24px}
+  .tabm .art{width:390px;height:230px}
+  .tabm .halo{width:200px;height:200px}
+  .tabm .pt-d{display:none}
+  .tabm .pt-m{display:block}
+  .why .st1 .halo{left:86px;top:-42px}
+  .why .st1 .art img{left:6px;top:20px;width:200px;-webkit-mask-image:linear-gradient(#000 52%,transparent 88%);mask-image:linear-gradient(#000 52%,transparent 88%)}
+  .why .st2 .halo{left:-5px;top:-30px}
+  .why .st2 .art img{left:40px;top:28px;width:110px;-webkit-mask-image:linear-gradient(#000 52%,transparent 88%);mask-image:linear-gradient(#000 52%,transparent 88%)}
+  .cr .st1 .halo{left:20px;top:-56px}
+  .cr .st1 .art img{left:17px;top:12px;width:186px}
+  .cr .st2 .halo{left:26px;top:-60px}
+  .cr .st2 .art img{left:19px;top:16px;width:165px}
+  .tabm h2{max-width:none;font-size:34px;line-height:1;letter-spacing:-1.1px;text-shadow:0 0 30px rgba(255,255,255,.9)}
+  .tabm h2 .mb{display:inline}
+  .tabm .wbody{margin-top:22px}
+  .tabm .wbody p{font-size:16px;line-height:1.6}
+  .why .wbody p+p{margin-top:14px}
+  .cr .wbody .ld{font-size:17px;margin-bottom:8px}
+  .cr .wbody ul{margin-bottom:14px}
+  .cr .wbody li{font-size:16px;line-height:1.5;padding:3px 0}
+  .cr .wbody .cl0{margin-top:0}
+  .cr .wbody .cl1,.cr .wbody .cl2{margin-top:14px}
+  .cr .pq{padding-right:14px;margin-bottom:14px}
+  .cr .wbody .pq p{font-size:20px}
+  .cr .st2 .wbody>p{font-size:16px}
+  .cr .st2 .wbody>p+p{margin-top:10px}
+  .tabm .foot{position:relative;padding:14px 24px calc(30px + env(safe-area-inset-bottom));background:#fff}
+  .tabm .foot::before{content:"";position:absolute;left:0;right:0;top:-46px;height:46px;pointer-events:none;background:linear-gradient(rgba(255,255,255,0),#fff)}
+  .tabm .foot .btn{width:100%;height:50px}
+}
+@media (prefers-reduced-motion:reduce){
+  .tabm .card,dialog.pop.tabm.closing .card{transform:none !important;transition:opacity .2s ease}
+}
+
+/* ------------------------------------------------------------------ "עוד על מורן" reading view: personal magazine story (MODALS_HANDOFF_18NOV 4) */
+.pop.mag .card{padding:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.pop.mag .x{z-index:3}
+.pop.mag .scr{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:64px 72px 60px;scrollbar-width:thin;scrollbar-color:#D2D2D7 transparent}
+.pop.mag .in{max-width:600px}
+.pop.mag .lb{font-size:15px;font-weight:700;color:#29808A;margin-bottom:6px}
+.pop.mag .ttl{font-size:48px;letter-spacing:-1.6px;line-height:1.08;margin:0 0 30px}
+.pop.mag p{margin:0;font-size:18px;line-height:1.75;color:#3A3A3C;text-wrap:pretty}
+.pop.mag p+p{margin-top:20px}
+.pop.mag .lead{font-size:22px;line-height:1.5;font-weight:500;color:#1D1D1F}
+.pop.mag .sp{margin-top:44px}
+.pop.mag .inl{display:inline;padding:0;font:inherit;font-weight:500;color:#29808A;text-decoration:underline;text-decoration-color:#65D8D3;text-decoration-thickness:2px;text-underline-offset:4px;transition:text-decoration-color .15s ease}
+.pop.mag .inl:hover{text-decoration-color:#29808A}
+.pop.mag .pull{margin:30px 0 56px;padding:28px 0 30px;border-top:1px solid #C9F0EF;border-bottom:1px solid #C9F0EF;unicode-bidi:isolate}
+.pop.mag .pull .qm{display:block;margin-bottom:12px}
+.pop.mag .pull span{display:block;font-size:52px;font-weight:700;letter-spacing:-1.8px;line-height:1.05;color:#29808A}
+.pop.mag .kick{display:flex;align-items:center;gap:12px;margin:52px 0 16px;font-size:15px;font-weight:700;letter-spacing:.3px;line-height:1.3;color:#29808A}
+.pop.mag .kick::before{content:"";flex:none;width:28px;height:2px;border-radius:2px;background:#65D8D3}
+.pop.mag .pull+.kick{margin-top:0}
+.pop.mag .fin{margin-top:48px;padding:36px 36px 34px;border-radius:24px;background:linear-gradient(180deg,#EEF9F9,#F6FCFC)}
+.pop.mag .fin .now{font-size:28px;line-height:1.3;font-weight:700;letter-spacing:-.6px;color:#1D1D1F}
+.pop.mag .fin .now+p{margin-top:14px}
+.pop.mag .fin .born{margin-top:22px;font-size:21px;font-weight:700;color:#29808A}
+@media (max-width:899px){
+  .pop.read.mag .card{padding:0;box-shadow:0 -10px 40px rgba(0,0,0,.18)}
+  .pop.read.mag .scr{padding:64px 24px 40px}
+  .pop.read.mag .ttl{font-size:36px;margin:0 0 30px}
+  .pop.read.mag p{font-size:17px;line-height:1.7}
+  .pop.read.mag .lead{font-size:19px}
+  .pop.read.mag .pull span{font-size:38px}
+  .pop.read.mag .kick{margin-top:44px}
+  .pop.read.mag .pull+.kick{margin-top:0}
+  .pop.read.mag .fin{padding:26px 22px}
+  .pop.read.mag .fin .now{font-size:23px}
+}
+
+/* ------------------------------------------------------------------ founder quote card, one sentence centered (MODALS_HANDOFF_18NOV 5) */
+.fo-q blockquote{white-space:normal;text-align:center;letter-spacing:-.9px;line-height:1.24;unicode-bidi:isolate;text-wrap:balance;transform:translateY(-12px)}
+/* founder card "אני מורן": fallback sizes so the new text fits (handoff 5: paragraphs down to 15 px, gap 10); quote kept on four lines on smaller desktops */
+@media (min-width:900px){.fo-me p{font-size:16px;margin-top:12px}.fo-me p:first-of-type{margin-top:18px}}
+@media (min-width:900px) and (max-width:1279px){.fo-me p{font-size:15px;margin-top:10px}.fo-me .ttl{font-size:30px}.fo-me .btn{margin-top:22px}}
+@media (min-width:900px) and (max-width:1439px){.fo-q blockquote{font-size:30px}}
+@media (min-width:1280px) and (max-width:1439px){.fo-me .tx{padding:44px 36px 40px}}
+@media (min-width:900px) and (max-width:1279px){.fo-q blockquote{font-size:25px}}
+@media (min-width:900px) and (max-width:1100px){.fo-q blockquote{font-size:21px}}
+@media (max-width:899px){
+  .fo-q blockquote{font-size:26px;letter-spacing:-.9px;line-height:1.24;transform:translateY(-8px)}
 }

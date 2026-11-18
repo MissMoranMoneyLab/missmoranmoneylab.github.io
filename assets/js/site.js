@@ -321,11 +321,11 @@
   /* "למה קמה המעבדה?": two steps in one modal, always opens on step 01 */
   function whySet(d, n, animate, focusHead) {
     var cur = $('.st:not([hidden])', d), next = $('[data-why-st="' + n + '"]', d);
-    $$('.steps [data-why-go]', d).forEach(function (b) { if (b.getAttribute('data-why-go') === String(n)) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
-    d.setAttribute('aria-labelledby', 'whylab-h' + n);
+    $$('.tabs [data-why-go]', d).forEach(function (b) { if (b.getAttribute('data-why-go') === String(n)) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+    var hh = $('h2', next); if (hh && hh.id) d.setAttribute('aria-labelledby', hh.id);
     var show = function () {
       if (cur && cur !== next) { cur.hidden = true; cur.classList.remove('out'); }
-      next.hidden = false; var wb = $('.wbody', next); if (wb) wb.scrollTop = 0;
+      next.hidden = false; var wb = $('.sc', next); if (wb) wb.scrollTop = 0; var cd = $('.card', d); if (cd) cd.classList.remove('scrolled');
       if (animate) { next.classList.add('out'); requestAnimationFrame(function () { requestAnimationFrame(function () { next.classList.remove('out'); }); }); }
       if (focusHead) { var h = $('h2', next); if (h) h.focus({ preventScroll: true }); }
     };
@@ -347,7 +347,7 @@
   // focus stays inside the modal (Tab and Shift+Tab cycle)
   doc.addEventListener('keydown', function (e) {
     if (e.key !== 'Tab') return;
-    var d = doc.getElementById('dlg-whylab'); if (!d || !d.open) return;
+    var d = $('dialog.tabm[open], dialog.mag[open]'); if (!d) return;
     var f = $$('button:not([disabled])', d).filter(function (el) { return el.offsetParent !== null && !el.closest('[hidden]'); });
     if (!f.length) return;
     var first = f[0], last = f[f.length - 1], a = doc.activeElement;
@@ -358,12 +358,13 @@
     var b = e.target.closest('[data-why-go]'); if (!b) return;
     var d = b.closest('dialog'), n = b.getAttribute('data-why-go');
     if ($('[data-why-st="' + n + '"]', d).hidden === false) return;
-    whySet(d, n, true, !b.closest('.steps'));
+    whySet(d, n, true, !b.closest('.tabs'));
   });
   function openDlg(id, opener) {
     var d = doc.getElementById(id); if (!d) return;
     lastFocus = opener || doc.activeElement;
-    if (d.id === 'dlg-whylab') whyReset(d);
+    if (d.classList.contains('tabm')) whyReset(d);
+    var sr = $('.scr', d); if (sr) sr.scrollTop = 0;
     if (!$('dialog[open]')) lockScroll(true);
     if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
     var card = $('.card', d); if (card) { card.setAttribute('tabindex', '-1'); card.focus({ preventScroll: true }); }   // no focus ring on the × when opened by touch
@@ -371,12 +372,12 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.add('show'); }); });
     var f = $('input:not(.hp),textarea,select', d); if (f && !MOB.matches) setTimeout(function () { f.focus(); }, 60);
   }
-  function closeDlg(d, then) {
+  function closeDlg(d, then, swap) {
     if (!d.open) return;
     d.classList.remove('show'); d.classList.add('closing');
     setTimeout(function () {
-      d.classList.remove('closing'); d.close ? d.close() : d.removeAttribute('open');
-      if (!$('dialog[open]')) { doc.body.style.overflow = ''; lockScroll(false); }
+      d.classList.remove('closing', 'instant'); d.close ? d.close() : d.removeAttribute('open');
+      if (!swap && !$('dialog[open]')) { doc.body.style.overflow = ''; lockScroll(false); }
       if (d.id === 'dlg-video') $('[data-vframe]', d).innerHTML = '';
       if (then) then(); else if (lastFocus && lastFocus.focus) lastFocus.focus();
     }, RM.matches ? 0 : 200);
@@ -387,8 +388,11 @@
     var c = e.target.closest('[data-close]');
     if (c) { closeDlg(c.closest('dialog')); return; }
     var sw = e.target.closest('[data-swap]');
-    if (sw) { var d0 = sw.closest('dialog'), keep = lastFocus; closeDlg(d0, function () { openDlg(sw.getAttribute('data-swap'), keep); }); return; }
+    if (sw) { var d0 = sw.closest('dialog'), keep = lastFocus, d1 = doc.getElementById(sw.getAttribute('data-swap')); if (d1) d1.classList.add('instant'); closeDlg(d0, function () { openDlg(sw.getAttribute('data-swap'), keep); }, true); return; }
     if (e.target.matches && e.target.matches('dialog.pop, dialog.pop .shell')) closeDlg(e.target.closest('dialog'));
+  });
+  $$('dialog.tabm .sc').forEach(function (sc) {
+    sc.addEventListener('scroll', function () { var cd = sc.closest('.card'); if (cd) cd.classList.toggle('scrolled', sc.scrollTop > 8); }, { passive: true });
   });
   $$('dialog.pop').forEach(function (d) {
     d.addEventListener('cancel', function (e) { e.preventDefault(); closeDlg(d); });

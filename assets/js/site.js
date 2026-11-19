@@ -9,13 +9,16 @@
     gtmId: 'GTM-5L73VZFV',          // Google Tag Manager container (GA4 G-Y6RTV6GK3M is configured inside it)
     consentKey: 'ml-consent',
     consentDays: 182,               // the choice is kept for 6 months, then the banner asks again
+    // quote hearts: Firebase Firestore (Spark, europe-west1), REST API, no SDK. Rules allow only +1 or -1 per write (19.11.2026)
+    firebase: { projectId: 'money-research-lab', apiKey: 'AIzaSyBhNEj18xEwHJy5ME2ulLdfFaEqq9cjFKE' },
     forms: {
       // Google Forms: action = https://docs.google.com/forms/d/e/<FORM_ID>/formResponse ; fields = site name -> entry.<ID>
       contact:    { action: 'https://docs.google.com/forms/d/e/1FAIpQLScQ87IhnVCdZZ-GD4dab7N3K-eovEEO63zhXKAbbawK0gN2nQ/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', message: 'entry.1909908519' } },
       experiment: { action: 'https://docs.google.com/forms/d/e/1FAIpQLSc8ua6RD7ydFLOnEZWXE8DpKN3FEfkP_4s8UkaxiMa_Q6HObg/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', idea: 'entry.647128729' } },
       research:   { action: 'https://docs.google.com/forms/d/e/1FAIpQLScvTnbwC0jzhWWbY9iM_IwJEyodhg_bsHyUkG9wQEIu1rZNnw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', topic: 'entry.647128729' } },
       first:      { action: 'https://docs.google.com/forms/d/e/1FAIpQLScLx6pG5I33XLY3fxkehqto4_7YFBqKkYEZcHB9iul4QhldKw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472' } },
-      quote:      { action: '', fields: { quote: '', consent: '' } },
+      // quotes wall: form "קיר הציטוטים – אתר" into the main sheet (19.11.2026)
+      quote:      { action: 'https://docs.google.com/forms/d/e/1FAIpQLScr_P4K8X3MQPCxCDuTHpzTxyDm5FWOZLZQWADfEtr6ciLTdg/formResponse', consentValue: 'מסכימה', fields: { quote: 'entry.1805802269', consent: 'entry.1807369132' } },
       // Brevo form "דוח המעבדה – אתר", list "דוח המעבדה", double opt-in, confirm page redirects to cherrixlabs.com
       report:     { action: 'https://48fee61e.sibforms.com/serve/MUIFAFEY49P015n7Mc4Kr4ZxR6ZoRzUh5oMsltJknmPEMq3Fw0axg-pyownl2zTOrCsmNlhvrxzkxvRF_d0dd7o1iw1UgUOM8Fh0jf4smhjfiOUjgzqj2kMMZIoBhBbp24ympSQFEIzP1CxqmT1nIRmnl-GYgmG6DsjQpNCY3RJGZOpPEtPq3972D2iuGWvbWkE5Jaoxj2cBwv0hrA==', brevo: true, fields: { email: 'EMAIL', name: 'FIRSTNAME' } }
     },
@@ -440,7 +443,7 @@
     if (!conf.action) return Promise.reject(new Error('form "' + key + '" is not connected yet (CONFIG.forms)'));
     Object.keys(conf.fields).forEach(function (k) {
       var target = conf.fields[k]; if (!target) return;
-      var v = fd.get(k); if (k === 'consent') v = v ? 'כן' : ''; if (v !== null && v !== '') out.append(target, v);
+      var v = fd.get(k); if (k === 'consent') v = v ? (conf.consentValue || 'כן') : ''; if (v !== null && v !== '') out.append(target, v);
     });
     if (conf.brevo) {
       // Brevo answers CORS with JSON {success:true|false} (checked 15.11.2026 from cherrixlabs.com), so this is a real confirmation
@@ -559,19 +562,44 @@
       $('span', btn).textContent = fmt(n); btn.setAttribute('data-n', n);
       btn.setAttribute('aria-label', (on ? 'הסרת לב מהציטוט. ' : 'הוספת לב לציטוט. ') + 'מספר הלבבות: ' + n);
     };
-    // Hearts storage (Firebase Firestore, Spark) is Stage 2: counts start at 0 and the choice is kept only in this browser for now.
+    // hearts: counts live in Firestore (one document per quote, field n); this browser remembers its own hearts in localStorage
+    var FB = CONFIG.firebase, DB = 'projects/' + FB.projectId + '/databases/(default)/documents', API = 'https://firestore.googleapis.com/v1/';
+    var fbCall = function (path, body) {
+      return fetch(API + path + '?key=' + FB.apiKey, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) { if (!r.ok) throw new Error('firestore ' + r.status); return r.json(); });
+    };
+    var stale = function (btn, yes) { btn.classList.toggle('stale', yes); if (yes) btn.title = 'המונה יתעדכן בהמשך'; else btn.removeAttribute('title'); };
     cards.forEach(function (c) {
-      var id = c.getAttribute('data-id'), btn = $('.heart', c), base = parseInt(btn.getAttribute('data-n') || '0', 10);
-      setHeart(btn, !!mine[id], base + (mine[id] ? 1 : 0));
+      var id = c.getAttribute('data-id'), btn = $('.heart', c);
+      setHeart(btn, !!mine[id], mine[id] ? 1 : 0);
       btn.addEventListener('click', function () {
-        var on = !btn.classList.contains('on'), n = parseInt(btn.getAttribute('data-n'), 10) + (on ? 1 : -1);
+        if (btn.getAttribute('aria-busy') === 'true') return;
+        var on = !btn.classList.contains('on'), n = Math.max(0, parseInt(btn.getAttribute('data-n'), 10) + (on ? 1 : -1));
         if (on) mine[id] = 1; else delete mine[id];
         try { localStorage.setItem(LS, JSON.stringify(mine)); } catch (e) {}
-        setHeart(btn, on, Math.max(0, n));
+        setHeart(btn, on, n);
         if (on && !RM.matches) { btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop'); }
         track('quote_heart', { quote_id: id, state: on ? 'on' : 'off' });
+        fbCall(DB.replace(/\/documents$/, '/documents') + ':commit', { writes: [{ transform: { document: DB + '/hearts/' + id, fieldTransforms: [{ fieldPath: 'n', increment: { integerValue: on ? '1' : '-1' } }] } }] })
+          .then(function () { stale(btn, false); })
+          .catch(function (err) { if (window.console) console.warn('[lab] heart', err.message); stale(btn, true); });
       });
     });
+    // load the shared counts once; on failure the hearts still work in this browser and the count shows as stale
+    fbCall(DB + ':batchGet', { documents: cards.map(function (c) { return DB + '/hearts/' + c.getAttribute('data-id'); }) })
+      .then(function (res) {
+        var counts = {};
+        (res || []).forEach(function (r) { if (r.found) { var k = r.found.name.split('/').pop(); counts[k] = parseInt(((r.found.fields || {}).n || {}).integerValue || '0', 10); } });
+        cards.forEach(function (c) {
+          var id = c.getAttribute('data-id'), btn = $('.heart', c), n = counts[id] || 0;
+          if (mine[id] && n < 1) n = 1;
+          setHeart(btn, !!mine[id], n); btn.removeAttribute('aria-busy');
+        });
+      })
+      .catch(function (err) {
+        if (window.console) console.warn('[lab] hearts', err.message);
+        cards.forEach(function (c) { var btn = $('.heart', c); btn.removeAttribute('aria-busy'); stale(btn, true); });
+      });
     // order: random by default; sort toggle "הכי אהובים" / "חדשים"
     var grid = $('.masonry', wall);
     var shuffle = function () { var a = cards.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; };

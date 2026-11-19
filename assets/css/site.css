@@ -1052,3 +1052,10 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
   .hbtns{margin-top:22px}
 }
 @media (max-width:389px){.hero .hbtns .btn{padding:14px 22px}.hbtns{gap:10px}}
+
+/* quote hearts: loading and stale states (spec 3i, live 19.11.2026) */
+.heart[aria-busy="true"] span{display:inline-block;width:12px;height:12px;border:2px solid rgba(29,29,31,.2);border-top-color:var(--ink);border-radius:50%;color:transparent;overflow:hidden;animation:hspin .8s linear infinite}
+.heart.on[aria-busy="true"] span{border-color:rgba(255,255,255,.3);border-top-color:#fff}
+.heart.stale span{opacity:.45}
+@keyframes hspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.heart[aria-busy="true"] span{animation:none}}

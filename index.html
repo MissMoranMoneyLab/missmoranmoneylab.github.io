@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://i.ytimg.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://docs.google.com https://*.sibforms.com; frame-src https://www.youtube-nocookie.com; form-action 'self' https://docs.google.com https://*.sibforms.com; base-uri 'self'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://i.ytimg.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://docs.google.com https://*.sibforms.com https://firestore.googleapis.com; frame-src https://www.youtube-nocookie.com; form-action 'self' https://docs.google.com https://*.sibforms.com; base-uri 'self'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>המעבדה לחקר הכסף | מחקר על נשים, כסף והחלטות השקעה</title>
 <meta name="description" content="איך נשים חושבות על כסף והשקעות">
@@ -26,7 +26,7 @@
 <link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
 <link rel="preload" href="/assets/fonts/heebo-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/heebo-hebrew-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=8dd9ebfd">
+<link rel="stylesheet" href="/assets/css/site.css?v=74676335">
 <link rel="preload" as="image" href="/assets/img/hero-desktop-poster.webp" media="(min-width:900px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/img/hero-mobile-poster.webp" media="(max-width:899px)" fetchpriority="high">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://cherrixlabs.com/#org", "name": "המעבדה לחקר הכסף", "alternateName": "The Money Research Lab", "url": "https://cherrixlabs.com/", "logo": "https://cherrixlabs.com/assets/img/favicon-512.png", "founder": {"@type": "Person", "name": "מורן שקד"}, "sameAs": ["https://www.instagram.com/missm_moneylab", "https://www.facebook.com/moranshak"]}, {"@type": "WebSite", "@id": "https://cherrixlabs.com/#site", "url": "https://cherrixlabs.com/", "name": "המעבדה לחקר הכסף", "inLanguage": "he", "publisher": {"@id": "https://cherrixlabs.com/#org"}}]}</script>
@@ -36,7 +36,7 @@
 <header class="site-header on-dark">
  <div class="in">
   <a class="logo" href="/">המעבדה לחקר הכסף</a>
-  <nav aria-label="ניווט ראשי"><ul class="nav-links"><li><a href="/#story">המחקר</a></li><li><a href="/#process">איך זה עובד</a></li><li><a href="/#personas">הדמויות</a></li><li><a href="/#lab-now">מה קורה במעבדה?</a></li><li><a href="/#founder">מאחורי המעבדה</a></li><li><a href="/#contact">צור קשר</a></li></ul></nav>
+  <nav aria-label="ניווט ראשי"><ul class="nav-links"><li><a href="/#story">המחקר</a></li><li><a href="/#process">איך זה עובד</a></li><li><a href="/#personas">הדמויות</a></li><li><a href="/#lab-now">מה קורה במעבדה?</a></li><li><a href="/quotes/">קיר הציטוטים</a></li><li><a href="/#founder">מאחורי המעבדה</a></li><li><a href="/#contact">צור קשר</a></li></ul></nav>
   <a class="nav-cta" href="/#report" data-report data-ev="report_open_header">קבלת דו״ח מעבדה</a>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mmenu" aria-label="פתיחת תפריט">
    <svg width="22" height="18" viewBox="0 0 22 18" aria-hidden="true"><path class="l1" d="M1 5h20" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><path class="l2" d="M1 13h13" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -44,7 +44,7 @@
  </div>
 </header>
 <div class="mmenu on-dark" id="mmenu" aria-label="תפריט" hidden>
- <ul><li><a href="/#story">המחקר</a></li><li><a href="/#process">איך זה עובד</a></li><li><a href="/#personas">הדמויות</a></li><li><a href="/#lab-now">מה קורה במעבדה?</a></li><li><a href="/#founder">מאחורי המעבדה</a></li><li><a href="/#contact">צור קשר</a></li></ul>
+ <ul><li><a href="/#story">המחקר</a></li><li><a href="/#process">איך זה עובד</a></li><li><a href="/#personas">הדמויות</a></li><li><a href="/#lab-now">מה קורה במעבדה?</a></li><li><a href="/quotes/">קיר הציטוטים</a></li><li><a href="/#founder">מאחורי המעבדה</a></li><li><a href="/#contact">צור קשר</a></li></ul>
  <a class="btn" href="/#report" data-report data-ev="report_open_menu">קבלת דו״ח מעבדה</a>
 </div>
 <dialog class="pop tabm why" id="dlg-whylab" aria-labelledby="whylab-h1">
@@ -316,7 +316,7 @@
  <div class="txt">
   <h2 class="h-sec" id="qf-t">משפטים שנאמרים שוב ושוב...</h2>
   <p class="sub">נשים שונות, סיפורים שונים, ומשפטים שמפתיע כמה מאיתנו מזהות בעצמן.</p>
-  <span class="btn btn-k soon" aria-disabled="true">בקרוב</span>
+  <a class="btn btn-k" href="/quotes/" data-ev="quotes_open_home">לקיר הציטוטים</a>
  </div>
  <div class="fan" aria-hidden="true"><div class="qcard" style="transform:rotate(-44deg);z-index:0"><div class="face" style="background:linear-gradient(165deg,#FDF8F6 0%,#FDF8F6 25%,#EBD4D4 100%)"><div class="fr"></div><img class="lg" src="/assets/img/lab-logo-black.png" alt="" width="84" height="84" loading="lazy"><div class="ob">OBSERVATION 001</div><div class="tl">THE MONEY RESEARCH LAB</div><div class="nz"></div><div class="gl"></div></div></div><div class="qcard" style="transform:rotate(-22deg);z-index:1"><div class="face" style="background:linear-gradient(165deg,#FCEDED 0%,#FCEDED 25%,#F3B8BC 100%)"><div class="fr"></div><img class="lg" src="/assets/img/lab-logo-black.png" alt="" width="84" height="84" loading="lazy"><div class="ob">OBSERVATION 002</div><div class="tl">THE MONEY RESEARCH LAB</div><div class="nz"></div><div class="gl"></div></div></div><div class="qcard" style="transform:rotate(44deg);z-index:2"><div class="face" style="background:linear-gradient(165deg,#F5F0FD 0%,#F5F0FD 25%,#E3CDEF 100%)"><div class="fr"></div><img class="lg" src="/assets/img/lab-logo-black.png" alt="" width="84" height="84" loading="lazy"><div class="ob">OBSERVATION 003</div><div class="tl">THE MONEY RESEARCH LAB</div><div class="nz"></div><div class="gl"></div></div></div><div class="qcard" style="transform:rotate(22deg);z-index:3"><div class="face" style="background:linear-gradient(165deg,#F3EBFC 0%,#F3EBFC 25%,#CDB6F2 100%)"><div class="fr"></div><img class="lg" src="/assets/img/lab-logo-black.png" alt="" width="84" height="84" loading="lazy"><div class="ob">OBSERVATION 004</div><div class="tl">THE MONEY RESEARCH LAB</div><div class="nz"></div><div class="gl"></div></div></div><div class="qcard" style="transform:rotate(0deg);z-index:4"><div class="face" style="background:linear-gradient(165deg,#EEFAF9 0%,#EEFAF9 25%,#A8E5E1 100%)"><div class="fr"></div><img class="lg" src="/assets/img/lab-logo-black.png" alt="" width="84" height="84" loading="lazy"><div class="ob">OBSERVATION 005</div><div class="tl">THE MONEY RESEARCH LAB</div><div class="nz"></div><div class="gl"></div></div></div></div>
 </section>
@@ -512,6 +512,6 @@
   <div class="pb"><button class="btn btn-k" type="button" data-ck="save">שמירת הבחירה</button><a class="lk" href="/privacy/#cookies">מה נאסף</a></div>
  </div></div>
 </dialog>
-<script src="/assets/js/site.js?v={8dd9ebfd}" defer></script>
+<script src="/assets/js/site.js?v={74676335}" defer></script>
 </body>
 </html>

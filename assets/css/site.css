@@ -1159,3 +1159,5 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
 @media (min-width:900px){.particip h2{font-size:min(60px,calc((100vw - 160px) / 15.5));white-space:nowrap}}
 /* 20.11.2026: footer copyright line (content brief): one unit, wraps as a whole on phones */
 .cy{display:inline-block;unicode-bidi:isolate}
+/* 20.11.2026 (Moran: the "אני מורן" window did not scroll with the mouse wheel): an overflow:hidden card swallowed the wheel; clip keeps the rounded corners without being a scroll container */
+.tabm.me .card{overflow:clip}

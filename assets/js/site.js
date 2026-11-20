@@ -341,16 +341,19 @@
     vis.forEach(function (s) { s.classList.add('out'); });
     d._wt = setTimeout(show, 160);
   }
-  /* header "קבלת דו״ח מעבדה": opens the report sign-up pop-up on the homepage; from inner pages it goes to /#report, which opens it on load */
+  /* header and mobile menu "לקחת חלק במעבדה" (20.11, Moran): opens "לתרום את הפרופיל שלי" on the homepage; from inner pages it goes to /#research,
+     which opens it on load. /#report still opens the report sign-up (older links). */
   doc.addEventListener('click', function (e) {
-    var a = e.target.closest('[data-report]'); if (!a || !doc.getElementById('dlg-report')) return;
+    var a = e.target.closest('[data-dlglink]'); if (!a) return;
+    var id = a.getAttribute('data-dlglink'); if (!doc.getElementById(id)) return;
     e.preventDefault(); var op = a;
     if (a.closest('#mmenu') && menuBtn) { setMenu(false); op = menuBtn; }
-    openDlg('dlg-report', op);
+    openDlg(id, op);
   });
-  if (location.hash === '#report' && doc.getElementById('dlg-report')) {
+  var hashDlg = { '#research': 'dlg-research', '#report': 'dlg-report' }[location.hash];
+  if (hashDlg && doc.getElementById(hashDlg)) {
     history.replaceState(null, '', location.pathname + location.search);
-    setTimeout(function () { openDlg('dlg-report', $('.nav-cta') || null); }, 300);
+    setTimeout(function () { openDlg(hashDlg, $('.nav-cta') || null); }, 300);
   }
   function whyReset(d) { whySet(d, 1, false, false); }
   // focus stays inside the modal (Tab and Shift+Tab cycle)

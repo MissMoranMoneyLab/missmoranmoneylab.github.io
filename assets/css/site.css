@@ -1059,3 +1059,103 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
 .heart.stale span{opacity:.45}
 @keyframes hspin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.heart[aria-busy="true"] span{animation:none}}
+
+/* ===== 20.11.2026: design handoff 20.11 (sketch-20nov.css folded in) ===== */
+/* sketch 20.11: "אני מורן" window (replaces the credo window) and three full-width labnow cards */
+.tabm.me .card{height:840px}
+.me .hd{padding-top:96px}
+.me .art .ph{position:absolute;left:84px;top:40px;width:168px;height:168px;border-radius:50%;overflow:hidden;z-index:1;box-shadow:0 0 0 6px rgba(255,255,255,.6),0 14px 34px rgba(41,128,138,.18)}
+.me .art .ph img{position:static;width:100%;height:100%;object-fit:cover;-webkit-mask-image:none;mask-image:none}
+.me .halo{left:28px;top:-16px}
+.me .kk{position:relative;z-index:2;font-size:15px;font-weight:700;color:#29808A;margin-bottom:10px;text-shadow:0 0 20px rgba(255,255,255,.9)}
+.me .wbody p+p{margin-top:16px}
+.me .wbody p.lead{font-size:21px;line-height:1.5;font-weight:500;color:#1D1D1F}
+.me .pull{margin:22px 0 26px;padding:22px 0 24px;border-top:1px solid #C9F0EF;border-bottom:1px solid #C9F0EF;unicode-bidi:isolate}
+.me .pull .qm{display:block;margin-bottom:10px}
+.me .pull span{display:block;font-size:46px;font-weight:700;letter-spacing:-1.6px;line-height:1.05;color:#29808A}
+.me .wbody p.big{font-size:30px;line-height:1.25;font-weight:700;letter-spacing:-.7px;color:#1D1D1F;margin-top:30px}
+.me .wbody p.big em{font-style:normal;color:#29808A}
+.me .pq{margin:18px 0 30px}
+@media (min-width:900px){.labnow .lcard{flex:1 1 0;min-width:0}}
+@media (max-width:899px){
+ .me .hd{padding:150px 24px 0}
+ .me .art .ph{left:68px;top:24px;width:112px;height:112px}
+ .me .pull span{font-size:34px;letter-spacing:-1.1px}
+ .me .wbody p.big{font-size:24px}
+ .me .wbody p.lead{font-size:18px}
+}
+/* sketch 20.11: process intro (brief "בונות את המעבדה יחד") */
+.proc-intro{max-width:760px;margin:28px auto 0;padding:0 16px;text-align:center}
+.proc-intro p{margin:0;font-size:19px;line-height:1.6;color:var(--ink-2);text-wrap:pretty}
+.proc-intro p+p{margin-top:14px}
+.proc-intro p.dna{margin-top:22px;font-size:21px;font-weight:700;color:#29808A}
+@media (max-width:899px){
+ .proc-intro{margin-top:18px;padding:0 24px}
+ .proc-intro p{font-size:16px}
+ .proc-intro p.dna{font-size:18px;margin-top:16px}
+}
+/* round 3: the long version, the whole text without inner scroll; the dialog scrolls */
+.tabm.me .shell{overflow-y:auto;align-items:flex-start}
+.tabm.me .card{height:auto;max-height:none;overflow:hidden}
+.tabm.me .st{flex:none}
+.tabm.me .sc{overflow:visible;-webkit-mask-image:none;mask-image:none;flex:none}
+@media (max-width:899px){.tabm.me .card{height:auto;min-height:calc(100% - 44px)}.tabm.me .shell{padding:44px 0 0}}
+/* sketch 20.11 round 4: "מה עושים במעבדה?" one continuous window, no tabs */
+.why.one .hd{padding-top:96px}
+.why.one .wbody p.rq{margin:30px 0;font-size:24px;line-height:1.38;font-weight:700;letter-spacing:-.4px;color:#1D1D1F}
+.why.one .wbody p.tr{margin:44px 0 18px;font-size:32px;line-height:1.1;font-weight:700;letter-spacing:-.9px;color:#1D1D1F}
+@media (max-width:899px){
+ .why.one .hd{padding-top:74px}
+ .why.one .wbody p.rq{font-size:20px;margin:24px 0}
+ .why.one .wbody p.tr{font-size:26px;margin:34px 0 14px}
+}
+/* round 5: hero buttons the same width; the profile button only at the end of the text; the research question in a soft frame */
+.hbtns .btn{min-width:212px}
+@media (max-width:899px){.hbtns{flex-wrap:nowrap;gap:10px}.hbtns .btn,.hero .hbtns .btn{min-width:0;padding:14px 20px}}
+.why.one .wbody p.rq{margin:30px 0;padding:28px 32px;border-radius:24px;background:linear-gradient(180deg,#F4EFFE,#FAF7FF)}
+.why.one .endcta{display:flex;justify-content:flex-end;margin-top:36px;padding-bottom:28px}
+.why.one .endcta .btn{height:46px;padding:0 28px}
+@media (max-width:899px){
+ .why.one .wbody p.rq{padding:22px 22px;border-radius:20px}
+ .why.one .endcta .btn{width:100%;height:50px}
+}
+/* sketch 20.11 afternoon: participation form "לתרום את הפרופיל שלי" */
+.pop.form.prof .body p{margin-bottom:10px}
+.pop.form.prof .body h3{margin:18px 0 4px;font-size:18px;line-height:1.3;font-weight:700;letter-spacing:-.2px;color:#1D1D1F}
+.pop.form.prof .fld input[type=tel]{text-align:right}
+.pop.form.prof .shell{overflow-y:auto}
+.pop.form.prof .center{margin-top:26px}
+@media (max-width:339px){.hbtns{flex-wrap:wrap}}   /* very narrow phones: the two hero buttons stack, as before */
+
+/* ===== 20.11.2026: add-quote success state (design handoff 19.11, QUOTE_SUCCESS_HANDOFF) ===== */
+#dlg-quote .qform{transition:opacity .2s ease-out}
+#dlg-quote .qform.fade{opacity:0}
+#dlg-quote .qform.rm{transition-duration:.15s}
+#dlg-quote .card.qdone{padding:96px 72px 88px;text-align:center}
+#dlg-quote .qok:empty{display:none}
+#dlg-quote .qok img{display:block;width:64px;height:64px;margin:0 auto 28px}
+#dlg-quote .qok p{font-size:30px;line-height:1.3;letter-spacing:-.6px;font-weight:700;color:#1D1D1F;max-width:540px;margin:0 auto;text-wrap:balance;outline:none}
+#dlg-quote .qok.in{animation:qok-in .25s ease-out both}
+#dlg-quote .qok.in img{animation:qok-stamp .35s cubic-bezier(.2,.8,.2,1) both}
+#dlg-quote .qok.in-rm{animation:qok-fade .15s linear both}
+@keyframes qok-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes qok-stamp{from{transform:scale(.92)}to{transform:none}}
+@keyframes qok-fade{from{opacity:0}to{opacity:1}}
+@media (max-width:899px){
+ #dlg-quote .card.qdone{padding:72px 24px 56px}
+ #dlg-quote .qok img{width:52px;height:52px;margin-bottom:22px}
+ #dlg-quote .qok p{font-size:23px;line-height:1.35;letter-spacing:-.3px;max-width:300px}
+}
+/* 20.11.2026: the hero title can never be wider than the screen (safety for 900 to 1100 px windows; no change where it already fits) */
+@media (min-width:900px){.hero h1{font-size:min(96px,calc((100vw - 64px) / 8.5));white-space:nowrap}}
+/* 20.11.2026 (Moran's review, screens of about 1000 px): the three labnow cards keep one-line titles and whole objects.
+   Below about 1200 px the cards stop shrinking at 300 px and become the swipe carousel with arrows; objects and titles scale with the card width */
+@media (min-width:900px){
+ .labnow .lcard{min-width:300px;container-type:inline-size}
+ .labnow .lcard h3{font-size:min(34px,calc((100cqw - 64px) / 7.6))}
+ .labnow .lcard .obj{--ow:min(var(--bw),calc(var(--bn) * 100cqw / 370));--oh:min(var(--bh),calc(var(--hn) * 100cqw / 370));width:var(--ow);height:var(--oh);top:calc(325px - var(--oh) / 2);margin-left:calc(var(--ow) / -2)}
+}
+/* 20.11.2026 (Moran's review at about 1000 px): "המעבדה לחקר הכסף זקוקה לידע שלך." stays on one line with air on both sides between 900 and 1160 px */
+@media (min-width:900px){.particip h2{font-size:min(60px,calc((100vw - 160px) / 15.5));white-space:nowrap}}
+/* 20.11.2026: footer copyright line (content brief): one unit, wraps as a whole on phones */
+.cy{display:inline-block;unicode-bidi:isolate}

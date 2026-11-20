@@ -15,7 +15,7 @@
       // Google Forms: action = https://docs.google.com/forms/d/e/<FORM_ID>/formResponse ; fields = site name -> entry.<ID>
       contact:    { action: 'https://docs.google.com/forms/d/e/1FAIpQLScQ87IhnVCdZZ-GD4dab7N3K-eovEEO63zhXKAbbawK0gN2nQ/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', message: 'entry.1909908519' } },
       experiment: { action: 'https://docs.google.com/forms/d/e/1FAIpQLSc8ua6RD7ydFLOnEZWXE8DpKN3FEfkP_4s8UkaxiMa_Q6HObg/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', idea: 'entry.647128729' } },
-      research:   { action: 'https://docs.google.com/forms/d/e/1FAIpQLScvTnbwC0jzhWWbY9iM_IwJEyodhg_bsHyUkG9wQEIu1rZNnw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', topic: 'entry.647128729' } },
+      research:   { action: 'https://docs.google.com/forms/d/e/1FAIpQLScvTnbwC0jzhWWbY9iM_IwJEyodhg_bsHyUkG9wQEIu1rZNnw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472', phone: 'entry.1986708514' } },   // 20.11: phone (optional) added to the Google Form; topic question kept in the form, no longer sent
       first:      { action: 'https://docs.google.com/forms/d/e/1FAIpQLScLx6pG5I33XLY3fxkehqto4_7YFBqKkYEZcHB9iul4QhldKw/formResponse', fields: { name: 'entry.1458910955', email: 'entry.1900738472' } },
       // quotes wall: form "קיר הציטוטים – אתר" into the main sheet (19.11.2026)
       quote:      { action: 'https://docs.google.com/forms/d/e/1FAIpQLScr_P4K8X3MQPCxCDuTHpzTxyDm5FWOZLZQWADfEtr6ciLTdg/formResponse', consentValue: 'מסכימה', fields: { quote: 'entry.1805802269', consent: 'entry.1807369132' } },
@@ -357,7 +357,7 @@
   doc.addEventListener('keydown', function (e) {
     if (e.key !== 'Tab') return;
     var d = $('dialog.tabm[open], dialog.mag[open]'); if (!d) return;
-    var f = $$('button:not([disabled])', d).filter(function (el) { return el.offsetParent !== null && !el.closest('[hidden]'); });
+    var f = $$('button:not([disabled]), a[href]', d).filter(function (el) { return el.offsetParent !== null && !el.closest('[hidden]'); });
     if (!f.length) return;
     var first = f[0], last = f[f.length - 1], a = doc.activeElement;
     if (e.shiftKey && (a === first || !d.contains(a) || a === $('.card', d))) { e.preventDefault(); last.focus(); }
@@ -396,7 +396,13 @@
     var o = e.target.closest('[data-open]');
     if (o) { e.preventDefault(); var op = o; if (o.closest('#mmenu') && menuBtn) { setMenu(false); op = menuBtn; } openDlg(o.getAttribute('data-open'), op); return; }
     var c = e.target.closest('[data-close]');
-    if (c) { closeDlg(c.closest('dialog')); return; }
+    if (c) {
+      // a link that closes its pop-up and goes to a section ("עוד עליי" to #founder): close first, then scroll, so the scroll restore does not undo it
+      var hr = c.tagName === 'A' ? c.getAttribute('href') || '' : '', hi = hr.indexOf('#'), tg = hi > -1 ? doc.getElementById(hr.slice(hi + 1)) : null;
+      if (tg) { e.preventDefault(); closeDlg(c.closest('dialog'), function () { tg.scrollIntoView({ behavior: RM.matches ? 'auto' : 'smooth', block: 'start' }); tg.setAttribute('tabindex', '-1'); tg.focus({ preventScroll: true }); }); return; }
+      if (hr) return;   // inner pages: the link goes to the homepage section
+      closeDlg(c.closest('dialog')); return;
+    }
     var sw = e.target.closest('[data-swap]');
     if (sw) { var d0 = sw.closest('dialog'), keep = lastFocus, d1 = doc.getElementById(sw.getAttribute('data-swap')); if (d1) d1.classList.add('instant'); closeDlg(d0, function () { openDlg(sw.getAttribute('data-swap'), keep); }, true); return; }
     if (e.target.matches && e.target.matches('dialog.pop, dialog.pop .shell')) closeDlg(e.target.closest('dialog'));
@@ -454,6 +460,40 @@
     }
     return fetch(conf.action, { method: 'POST', mode: 'no-cors', body: out });
   }
+  /* add-quote success (design handoff 19.11, QUOTE_SUCCESS_HANDOFF): the form fades out, the card shrinks to the logo and one sentence;
+     reduced motion: a short opacity cross only. Closing the pop-up brings back a fresh empty form. */
+  function quoteDone(form) {
+    var d = form.closest('dialog'), card = d && $('.card', d), fw = d && $('.qform', d), ok = d && $('.qok', d);
+    if (!card || !fw || !ok) return false;
+    var rm = RM.matches;
+    fw.classList.add('fade'); if (rm) fw.classList.add('rm');
+    d._qt = setTimeout(function () {
+      var h0 = card.getBoundingClientRect().height;
+      fw.hidden = true; form.reset();
+      ok.innerHTML = '<img src="/assets/img/lab-logo-black.png" alt="" width="64" height="64"><p dir="rtl" tabindex="-1">' + ok.getAttribute('data-ok') + '</p>';
+      card.classList.add('qdone');
+      if (!rm) {
+        var h1 = card.getBoundingClientRect().height;
+        card.style.height = h0 + 'px'; void card.offsetHeight;
+        card.style.transition = 'height .3s cubic-bezier(.2,.8,.2,1),opacity .35s var(--ease),transform .35s var(--ease)';
+        card.style.height = h1 + 'px';
+        d._qt = setTimeout(function () { card.style.height = ''; card.style.transition = ''; }, 320);
+      }
+      ok.classList.add(rm ? 'in-rm' : 'in');
+      var p = $('p', ok); if (p) p.focus({ preventScroll: true });
+    }, rm ? 150 : 200);
+    return true;
+  }
+  var dq = doc.getElementById('dlg-quote');
+  dq && dq.addEventListener('close', function () {
+    clearTimeout(dq._qt);
+    var card = $('.card', dq), fw = $('.qform', dq), ok = $('.qok', dq);
+    card.classList.remove('qdone'); card.style.height = ''; card.style.transition = '';
+    fw.hidden = false; fw.classList.remove('fade', 'rm'); ok.innerHTML = ''; ok.className = 'qok';
+    var f = $('form', dq); if (f) f.reset();
+  });
+  // footer copyright year (content brief 20.11): the HTML says 2026, the script keeps it current from 1 January
+  $$('.js-year').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
   $$('.js-form').forEach(function (form) {
     $$('input,textarea', form).forEach(function (c) { c.addEventListener('input', function () { var f = c.closest('.fld,.chk'); if (f && f.classList.contains('err')) { f.classList.remove('err'); c.setAttribute('aria-invalid', 'false'); } }); });
     form.addEventListener('submit', function (e) {
@@ -464,6 +504,7 @@
       if (!validate(form)) return;
       btn.disabled = true; form.setAttribute('aria-busy', 'true');
       send(key, form).then(function () {
+        if (key === 'quote' && quoteDone(form)) { track('form_submit', { form_name: key }); return; }
         msg.className = 'form-msg ok'; msg.textContent = msg.getAttribute('data-ok'); form.reset();
         track('form_submit', { form_name: key });
       }).catch(function (err) {

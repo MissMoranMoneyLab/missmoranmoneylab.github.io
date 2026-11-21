@@ -60,6 +60,14 @@
   window.addEventListener('resize', fitStages, { passive: true });
 
   /* ------------------------------------------------------------------ header */
+  // 21.11 mobile header (Apple local-nav style): after the page scrolls, the white "לקחת חלק במעבדה" button takes the place of the name; back at the top the name returns
+  (function () {
+    var hd = $('.site-header'); if (!hd) return;
+    var on = false, tick = false;
+    var upd = function () { tick = false; var y = window.scrollY || 0; var want = on ? y > 40 : y > 120; if (want !== on) { on = want; hd.classList.toggle('scrolled', on); } };
+    window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+    upd();
+  })();
   var menuBtn = $('.menu-btn'), mmenu = $('#mmenu');
   function setMenu(open) {
     if (!mmenu) return;
@@ -162,19 +170,7 @@
     });
     if (!M) { add('M' + (c.l - J) + ' ' + c.cy + ' H' + (c.l - GAP), true); add('M' + (c.r + GAP) + ' ' + c.cy + ' H' + (a.l - GAP - 2), true, 2); }
     else { add('M' + c.cx + ' ' + (c.t - J) + ' V' + (c.t - GAP), true); add('M' + c.cx + ' ' + (c.b + GAP) + ' V' + (a.t - GAP - 2), true, 2); }
-    // spark (Moran 15.11): a glowing dash arrives, circles the "ביטחון" pill and runs on to "פעולה"
-    if (RM.matches) return;
-    var o = 6, x0 = c.l - o, x1 = c.r + o, y0 = c.t - o, y1 = c.b + o, r = (y1 - y0) / 2, A = ' A' + r + ' ' + r + ' 0 0 1 ', d;
-    if (!M) d = 'M' + (c.l - J) + ' ' + c.cy + ' H' + x0 + A + (x0 + r) + ' ' + y0 + ' H' + (x1 - r) + A + x1 + ' ' + c.cy + A + (x1 - r) + ' ' + y1 + ' H' + (x0 + r) + A + x0 + ' ' + c.cy +
-                A + (x0 + r) + ' ' + y0 + ' H' + (x1 - r) + A + x1 + ' ' + c.cy + ' H' + (a.l - GAP - 2);
-    else d = 'M' + c.cx + ' ' + (c.t - J) + ' V' + y0 + ' H' + (x1 - r) + A + x1 + ' ' + c.cy + A + (x1 - r) + ' ' + y1 + ' H' + (x0 + r) + A + x0 + ' ' + c.cy + A + (x0 + r) + ' ' + y0 +
-             ' H' + (x1 - r) + A + x1 + ' ' + c.cy + A + (x1 - r) + ' ' + y1 + ' H' + c.cx + ' V' + (a.t - GAP - 2);
-    var sp = doc.createElementNS(NS, 'path');
-    sp.setAttribute('d', d); sp.setAttribute('fill', 'none'); sp.setAttribute('class', 'spark');
-    svg.appendChild(sp);
-    var SL = sp.getTotalLength(), K = 64;
-    sp.style.strokeDasharray = K + ' ' + (SL + K * 2);
-    if (sp.animate) sp.animate([{ strokeDashoffset: K }, { strokeDashoffset: -SL, offset: .78 }, { strokeDashoffset: -SL }], { duration: 8200, iterations: Infinity, easing: 'ease-in-out' });
+    // 21.11 (Moran): the turquoise spark around "ביטחון" was removed; the flow lines and the glow behind "פעולה" stay
   }
   function drawFlows() { $$('[data-flow]').forEach(function (f) { if (f.offsetParent !== null) drawFlow(f); }); }
   if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(drawFlows); else window.addEventListener('load', drawFlows);
@@ -377,9 +373,9 @@
     lastFocus = opener || doc.activeElement;
     $$('img[loading="lazy"]', d).forEach(function (im) { im.loading = 'eager'; });   // every step image ready before the first tab switch
     if (d.classList.contains('tabm')) whyReset(d);
-    var sr = $('.scr', d); if (sr) sr.scrollTop = 0;
     if (!$('dialog[open]')) lockScroll(true);
     if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+    $$('.scr, .shell, .sc, .card', d).forEach(function (el) { el.scrollTop = 0; });   // 20.11: every pop-up opens at its top, also after it was scrolled to the end and closed (set after showModal: a closed dialog cannot scroll)
     var card = $('.card', d); if (card) { card.setAttribute('tabindex', '-1'); card.focus({ preventScroll: true }); }   // no focus ring on the × when opened by touch
     doc.body.style.overflow = 'hidden';
     requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.add('show'); }); });
@@ -639,27 +635,31 @@
           if (mine[id] && n < 1) n = 1;
           setHeart(btn, !!mine[id], n); btn.removeAttribute('aria-busy');
         });
+        wall.dispatchEvent(new Event('ml:counts'));
       })
       .catch(function (err) {
         if (window.console) console.warn('[lab] hearts', err.message);
         cards.forEach(function (c) { var btn = $('.heart', c); btn.removeAttribute('aria-busy'); stale(btn, true); });
       });
-    // order: random by default; sort toggle "הכי אהובים" / "חדשים"
+    // order: segmented sort "הכי אהובים" (default, 21.11) / "חדשים"; cards are shuffled first so ties stay in random order
     var grid = $('.masonry', wall);
     var shuffle = function () { var a = cards.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
-    var place = function (arr) { arr.forEach(function (c) { grid.appendChild(c); }); };
-    place(shuffle());
+    var base = shuffle(), sortKey = 'loved';
+    var applySort = function () {
+      var arr = base.slice().sort(function (a, c) {
+        if (sortKey === 'loved') return parseInt($('.heart', c).getAttribute('data-n'), 10) - parseInt($('.heart', a).getAttribute('data-n'), 10);
+        return (c.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
+      });
+      arr.forEach(function (c) { grid.appendChild(c); });
+    };
+    applySort();
+    wall.addEventListener('ml:counts', function () { if (sortKey === 'loved') applySort(); });
     $$('[data-sort]', wall).forEach(function (b) {
       b.addEventListener('click', function () {
-        var k = b.getAttribute('data-sort'), on = b.getAttribute('aria-pressed') !== 'true';
-        $$('[data-sort]', wall).forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
-        if (!on) { place(shuffle()); return; }
-        b.setAttribute('aria-pressed', 'true');
-        var arr = cards.slice().sort(function (a, c) {
-          if (k === 'loved') return parseInt($('.heart', c).getAttribute('data-n'), 10) - parseInt($('.heart', a).getAttribute('data-n'), 10);
-          return (c.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
-        });
-        place(arr); track('quotes_sort', { sort: k });
+        var k = b.getAttribute('data-sort'); if (k === sortKey) return;
+        sortKey = k;
+        $$('[data-sort]', wall).forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        applySort(); track('quotes_sort', { sort: k });
       });
     });
     // card hover: turns on its vertical axis like a door, up to 16deg toward the pointer (desktop, fine pointer only)

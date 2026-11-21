@@ -592,16 +592,16 @@ dialog.pop.closing .card{opacity:0;transform:translateY(8px);transition-duration
 }
 
 /* ---------- quotes wall page (spec 3i, closed 12.11.2026) ---------- */
-.wallpage{padding:calc(var(--nav-h) + 130px) 0 140px;background:#fff}
+.wallpage{padding:calc(var(--nav-h) + 90px) 0 140px;background:#fff}
 .whead{text-align:center;padding:0 16px}
 .whead .sub{margin-top:20px}
 .whead .btn{margin-top:30px;height:auto;padding:11px 24px}
-.sort{display:flex;justify-content:center;margin-top:88px}
-.sort .seg{display:flex;gap:4px;background:#F2F2F5;border-radius:999px;padding:4px}
-.sort .seg button{font-size:15px;font-weight:500;color:var(--ink-2);padding:8px 20px;border-radius:999px;transition:background-color .15s ease,color .15s ease,box-shadow .15s ease}
+.sort{display:flex;justify-content:flex-start;width:1104px;max-width:calc(100% - 32px);margin:52px auto 0}
+.sort .seg{display:flex;gap:2px;background:#F2F2F5;border-radius:999px;padding:3px}
+.sort .seg button{font-size:13px;font-weight:500;color:var(--ink-2);padding:5px 14px;border-radius:999px;transition:background-color .15s ease,color .15s ease,box-shadow .15s ease}
 .sort .seg button:hover{color:var(--ink)}
 .sort .seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(29,29,31,.10)}
-.masonry{width:1104px;max-width:calc(100% - 32px);margin:64px auto 0;column-count:3;column-gap:48px}
+.masonry{width:1104px;max-width:calc(100% - 32px);margin:20px auto 0;column-count:3;column-gap:48px}
 .wcard{position:relative;break-inside:avoid;margin-bottom:48px;border-radius:32px;padding:44px 40px 36px;display:flex;flex-direction:column;gap:28px;background:#FAFAFB;overflow:hidden;will-change:transform;--sx:0px;box-shadow:var(--sx) 14px 34px -18px rgba(29,29,31,.0)}
 .wcard:hover{box-shadow:var(--sx) 18px 36px -20px rgba(29,29,31,.18)}
 .wcard::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-30px;height:62%;filter:blur(22px);opacity:.7;z-index:0;pointer-events:none}
@@ -625,10 +625,10 @@ dialog.pop.closing .card{opacity:0;transform:translateY(8px);transition-duration
 .count{font-family:Chivo,Arial,sans-serif;font-size:13px;color:var(--ink-3);text-align:left;margin:-6px 0 8px;direction:ltr}
 @media (max-width:1023px){.masonry{column-count:2;column-gap:28px}.wcard{margin-bottom:28px}}
 @media (max-width:899px){
-  .wallpage{padding:calc(var(--nav-h) + 56px) 0 72px}
+  .wallpage{padding:calc(var(--nav-h) + 36px) 0 72px}
   .whead .h-sec{font-size:31px}
-  .sort{margin-top:40px}
-  .masonry{width:358px;max-width:calc(100% - 32px);column-count:1;margin-top:32px}
+  .sort{width:358px;margin-top:28px;justify-content:center}
+  .masonry{width:358px;max-width:calc(100% - 32px);column-count:1;margin-top:16px}
   .wcard{margin-bottom:20px;padding:32px 28px;gap:22px}
   .wcard .lg{width:40px;height:40px}
   .wcard .q{font-size:18px}
@@ -1161,3 +1161,37 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
 .cy{display:inline-block;unicode-bidi:isolate}
 /* 20.11.2026 (Moran: the "אני מורן" window did not scroll with the mouse wheel): an overflow:hidden card swallowed the wheel; clip keeps the rounded corners without being a scroll container */
 .tabm.me .card{overflow:clip}
+/* 20.11.2026 (Moran: the photo was cut at the circle's sides): the global placeholder style .ph (pink, padding 0 4px) also hit the photo circle */
+.me .art .ph{padding:0;background:none;color:inherit}
+
+/* 21.11 (Moran): mobile participation, less empty space under the hand. The loop keeps its place from the top;
+   the section ends shortly after the hand. Values follow the loop height (172vw * 1334/1920 = 119.5vw). */
+@media (max-width:599px){
+  .particip{height:calc(150px + 119.5vw)}
+  .particip .bgv{top:124px;transform:translate(-51.5%,0)}
+  .particip .txt{top:calc(105px + 59.75vw)}
+}
+
+/* 21.11: wall sort control per design handoff 21.11 (HANDOFF_21NOV, rules in the quotes wall block above); focus ring only */
+.sort .seg button:focus-visible{outline:2px solid #6248E5;outline-offset:2px}
+
+/* 21.11 (Moran): mobile header, Apple local-nav style. The name and the white CTA share the start cell;
+   after scrolling (.scrolled, set in site.js) the CTA replaces the name with a soft cross fade; at the top the name returns.
+   While the menu is open the name shows (the menu has its own CTA). */
+@media (max-width:1079px){
+  .site-header .logo,.site-header .nav-cta{grid-column:1;grid-row:1;justify-self:start;transition:opacity .35s ease,transform .35s cubic-bezier(.25,.1,.25,1),visibility 0s linear 0s}
+  .site-header .nav-cta{display:inline-block;font-size:13px;line-height:1.25;padding:6px 14px;opacity:0;visibility:hidden;transform:translateY(6px);transition-delay:0s,0s,.35s}
+  .site-header .menu-btn{grid-column:2;grid-row:1}
+  .site-header.scrolled .logo{opacity:0;visibility:hidden;transform:translateY(-6px);transition-delay:0s,0s,.35s}
+  .site-header.scrolled .nav-cta{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  body.menu-open .site-header.scrolled .logo{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  body.menu-open .site-header.scrolled .nav-cta{opacity:0;visibility:hidden;transform:translateY(6px)}
+}
+@media (max-width:1079px) and (prefers-reduced-motion:reduce){
+  .site-header .logo,.site-header .nav-cta{transform:none!important}
+}
+
+/* 21.11 (Moran): mobile process cards, icons 15% smaller (164 -> 139) and a little higher */
+@media (max-width:899px){
+  .pcard:not(.open) .ico{top:124px;width:139px;height:139px;margin-left:-69.5px}
+}

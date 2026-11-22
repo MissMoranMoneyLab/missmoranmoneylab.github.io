@@ -1195,3 +1195,31 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
 @media (max-width:899px){
   .pcard:not(.open) .ico{top:124px;width:139px;height:139px;margin-left:-69.5px}
 }
+
+/* 22.11 QA round (Moran, iPhone screenshots) */
+@media (max-width:899px){
+  /* no white strip under the persona card: the section ends where the card ends (arrows overlap the card bottom) */
+  .personas{padding-bottom:0}
+  .parr{padding-bottom:52px}
+  /* founder carousel cards the same size as the labnow cards (Moran 22.11: "מה קורה במעבדה הוא הגודל הנכון") */
+  .fo-car{gap:20px;padding:0 25px;scroll-padding-inline:25px}
+  .fo-car>.fo-c{flex:0 0 260px;height:320px}
+  .fo-hk{padding:28px 22px}.fo-hk .tro{margin-bottom:14px}.fo-hk .tro svg{width:76px;height:76px}.fo-hk .ttl{font-size:24px}.fo-hk .btn{margin-top:18px}
+  .fo-pod .img{height:150px}.fo-pod .bt{padding:12px 20px 18px}.fo-pod .lb{font-size:14px}.fo-pod .lb b{font-size:17px}.fo-pod .btn{margin-top:12px}
+  .fo-q{padding:28px 22px}.fo-q blockquote{font-size:22px;letter-spacing:-.5px}
+}
+@media (max-width:599px){
+  /* less empty lavender above the sphere: 60 px less on top (loop, text and section move up together) */
+  .particip{height:calc(90px + 119.5vw)}
+  .particip .bgv{top:64px}
+  .particip .txt{top:calc(45px + 59.75vw)}
+}
+/* 22.11 (reader report: Firefox on a phone sticks and crashes around the personas): lighter rendering for every browser,
+   and no live blur under the fixed header in Firefox (Firefox recomputes it on every frame of the animations below it) */
+.personas:not(.inview) .rot{animation-play-state:paused}
+.pcardm .figm img{visibility:hidden;transition:opacity .7s ease-in-out,visibility 0s linear .7s}
+.pcardm .figm img.on{visibility:visible;transition:opacity .7s ease-in-out}
+@supports (-moz-appearance:none){
+  .site-header{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(18,17,19,.97)}
+  .btn-gl{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(255,255,255,.85)}
+}

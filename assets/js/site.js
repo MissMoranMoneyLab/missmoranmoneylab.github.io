@@ -270,6 +270,8 @@
       });
     });
     // bars fill when the section first comes into view
+    var ringIO = new IntersectionObserver(function (es) { $('#personas').classList.toggle('inview', es[0].isIntersecting); });   // 22.11: rings turn only while the section is on screen
+    ringIO.observe($('#personas'));
     var pIO = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { fillBars(panels[cur]); pIO.disconnect(); } }, { threshold: 0.3 });
     pIO.observe($('#personas'));
     // mobile flip card
@@ -374,9 +376,16 @@
     $$('img[loading="lazy"]', d).forEach(function (im) { im.loading = 'eager'; });   // every step image ready before the first tab switch
     if (d.classList.contains('tabm')) whyReset(d);
     if (!$('dialog[open]')) lockScroll(true);
+    // 22.11 (iPhone Safari opened "אני מורן" scrolled to its end): Safari's own dialog focusing picks a control and scrolls it into view,
+    // sometimes after our reset. The card gets autofocus, so the dialog focuses its top; the scroll is reset now and again after
+    // the opening motion, unless the visitor already scrolled or touched it.
+    var card = $('.card', d); if (card) { card.setAttribute('tabindex', '-1'); card.setAttribute('autofocus', ''); }
     if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
-    $$('.scr, .shell, .sc, .card', d).forEach(function (el) { el.scrollTop = 0; });   // 20.11: every pop-up opens at its top, also after it was scrolled to the end and closed (set after showModal: a closed dialog cannot scroll)
-    var card = $('.card', d); if (card) { card.setAttribute('tabindex', '-1'); card.focus({ preventScroll: true }); }   // no focus ring on the × when opened by touch
+    if (card) card.focus({ preventScroll: true });   // no focus ring on the × when opened by touch
+    var touched = false, mark = function () { touched = true; };
+    ['touchstart', 'wheel', 'keydown'].forEach(function (t) { d.addEventListener(t, mark, { once: true, passive: true }); });
+    var toTop = function () { if (touched || !d.open) return; d.scrollTop = 0; $$('*', d).forEach(function (el) { if (el.scrollTop) el.scrollTop = 0; }); };
+    toTop(); requestAnimationFrame(toTop); setTimeout(toTop, 120); setTimeout(toTop, 420);   // 20.11 + 22.11: every pop-up opens at its top
     doc.body.style.overflow = 'hidden';
     requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.add('show'); }); });
     var f = $('input:not(.hp),textarea,select', d); if (f && !MOB.matches) setTimeout(function () { f.focus(); }, 60);

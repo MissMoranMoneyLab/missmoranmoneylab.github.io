@@ -697,9 +697,10 @@
       qf.addEventListener('reset', function () { setTimeout(upd, 0); });
     }
   }
-  // 26.11 (Moran, iPhone): "חזרה" returns to the exact place on the page she came from (history keeps the scroll);
-  // opened directly from a shared link, it falls back to its href (the quotes wall goes to /#quotes)
+  // 26.11 (Moran, iPhone): "חזרה" on the quotes wall always goes to the quotes section of the home page (its href /#quotes);
+  // on the other inner pages it returns to the exact place she came from (history keeps the scroll), else to /
   $$('a.back').forEach(function (a) {
+    if (a.getAttribute('href').indexOf('#') !== -1) return;
     a.addEventListener('click', function (e) {
       try {
         if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) { e.preventDefault(); history.back(); }

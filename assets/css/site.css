@@ -1223,3 +1223,9 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
   .site-header{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(18,17,19,.97)}
   .btn-gl{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(255,255,255,.85)}
 }
+/* 26.11 (Moran): "חזרה" with an arrow pointing right, on the right (start) edge of the content, on every inner page */
+.inner .back,.backrow .back{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:500;color:var(--ink);text-decoration:none;min-height:44px;margin-bottom:24px}
+.inner .back svg,.backrow .back svg{flex:none}
+.inner .back:hover,.backrow .back:hover{color:var(--ink-3)}
+.backrow{width:1104px;max-width:calc(100% - 32px);margin:-40px auto 12px}
+@media (max-width:767px){.backrow{width:358px;margin:-24px auto 8px}}

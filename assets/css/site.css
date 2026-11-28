@@ -1236,7 +1236,33 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
 .site-header .lsw a:hover,.mmenu .lsw a:hover,.site-header .lsw a[aria-current=true],.mmenu .lsw a[aria-current=true]{color:#fff}
 .lsw a[aria-current=true]{font-weight:500}
 .mmenu .lsw{padding-top:18px}
-/* 27.11 header fit (QA of the English build): the desktop nav shows only the other language; the CTA never wraps */
-.site-header .lsw a[aria-current=true]{display:none}
+/* 27.11 header fit: the CTA never wraps */
 .nav-cta{white-space:nowrap}
-.site-header .lsw a{padding:3px 0;border-bottom:1.5px solid transparent}
+
+/* 28.11 header language switcher (design handoff handoff_lang_switch, LANG_SWITCH_SPEC): round flag + chevron, white listbox menu */
+.hend{justify-self:end;display:flex;align-items:center;gap:16px}
+.lsd{position:relative;display:flex;align-items:center}
+.lsd-btn{position:relative;display:inline-flex;align-items:center;gap:6px;direction:ltr;padding:4px 6px;border-radius:999px;background:transparent;color:#fff;border:0;cursor:pointer;transition:background-color .15s ease}
+.lsd-btn::before{content:"";position:absolute;inset:-6px -2px}
+.lsd-btn img{width:24px;height:24px;border-radius:50%;box-shadow:0 0 0 1.5px rgba(255,255,255,.55);display:block}
+.lsd-chev{opacity:.85;transition:transform .2s ease}
+.lsd-btn:hover,.lsd-btn[aria-expanded=true]{background:rgba(255,255,255,.12)}
+.lsd-btn[aria-expanded=true] .lsd-chev{transform:rotate(180deg)}
+.lsd-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.lsd-menu{--lsd-top:44px;position:absolute;top:calc(var(--lsd-top) - (var(--nav-h) - 32px) / 2);inset-inline-start:0;z-index:60;margin:0;list-style:none;min-width:170px;padding:6px;background:#fff;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease,visibility 0s linear .18s}
+.lsd-menu.open{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.lsd-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;color:#121113;text-decoration:none;font-size:15px;line-height:1.3;font-family:Heebo,Arial,sans-serif;white-space:nowrap}
+.lsd-menu a[lang=en]{font-family:Chivo,Arial,sans-serif;font-size:14px}
+.lsd-menu img{width:20px;height:20px;border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,.12);flex:none}
+.lsd-menu a[aria-selected=true]{background:#F2F2F5;font-weight:500}
+.lsd-menu a[aria-selected=false]:hover{background:#F7F7F8}
+.lsd-menu a:focus-visible{outline:2px solid #121113;outline-offset:-2px}
+.lsd-check{margin-inline-start:auto;flex:none}
+@media (prefers-reduced-motion:reduce){.lsd-menu{transform:none}.lsd-chev{transition:none}}
+@media (max-width:1079px){
+  .site-header .in{grid-template-columns:1fr auto auto;column-gap:6px}
+  .hend{display:contents}
+  .site-header .lsd{grid-column:2;grid-row:1;position:static}
+  .site-header .menu-btn{grid-column:3;grid-row:1}
+  .lsd-menu{--lsd-top:46px;top:var(--lsd-top);inset-inline-start:auto;inset-inline-end:16px}
+}

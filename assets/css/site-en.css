@@ -79,9 +79,12 @@ html[lang="en"] .count{text-align:right}
 html[lang="en"] .inner ul{padding-right:0;padding-left:22px}
 /* 27.11 header fit: the English nav is wider than the Hebrew one, so the menu header holds up to 1399 px */
 @media (min-width:1080px) and (max-width:1399px){
-  html[lang="en"] .site-header .in{grid-template-columns:1fr auto;padding:0 16px}
+  html[lang="en"] .site-header .in{grid-template-columns:1fr auto auto;column-gap:6px;padding:0 16px}
   html[lang="en"] .site-header nav{display:none}
-  html[lang="en"] .site-header .menu-btn{display:inline-flex;grid-column:2;grid-row:1}
+  html[lang="en"] .hend{display:contents}
+  html[lang="en"] .site-header .lsd{grid-column:2;grid-row:1;position:static}
+  html[lang="en"] .lsd-menu{top:44px;inset-inline-start:auto;inset-inline-end:16px}
+  html[lang="en"] .site-header .menu-btn{display:inline-flex;grid-column:3;grid-row:1}
   html[lang="en"] .site-header .logo,html[lang="en"] .site-header .nav-cta{grid-column:1;grid-row:1;justify-self:start;transition:opacity .35s ease,transform .35s cubic-bezier(.25,.1,.25,1),visibility 0s linear 0s}
   html[lang="en"] .site-header .nav-cta{display:inline-block;font-size:13px;line-height:1.25;padding:6px 14px;opacity:0;visibility:hidden;transform:translateY(6px);transition-delay:0s,0s,.35s}
   html[lang="en"] .site-header.scrolled .logo{opacity:0;visibility:hidden;transform:translateY(-6px);transition-delay:0s,0s,.35s}
@@ -91,3 +94,6 @@ html[lang="en"] .inner ul{padding-right:0;padding-left:22px}
 }
 /* 27.11: mobile story diagram, English labels are longer; tighter side padding so Knowledge / Emotion / Decision do not touch */
 html[lang="en"] .flow[data-flow="m"] .tagp[data-k="know"],html[lang="en"] .flow[data-flow="m"] .tagp[data-k="feel"],html[lang="en"] .flow[data-flow="m"] .tagp[data-k="dec"]{padding-left:13px!important;padding-right:13px!important}
+
+/* 28.11 switcher menu on English pages: the English row in Inter (already loaded here) */
+html[lang="en"] .lsd-menu a[lang=en]{font-family:Inter,Arial,sans-serif;font-size:14px}

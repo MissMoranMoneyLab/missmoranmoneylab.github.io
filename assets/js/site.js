@@ -115,11 +115,37 @@
   }
   // 27.11 language switcher: keep the #section when the other page has the same ID (both languages share the IDs); event after consent only
   doc.addEventListener('click', function (e) {
-    var a = e.target.closest('.lsw a[data-lang]'); if (!a) return;
+    var a = e.target.closest('a[data-lang]'); if (!a) return;
     var to = a.getAttribute('data-lang'); if (to === LANG) return;
     var h = location.hash; if (h && h.length > 1 && doc.getElementById(decodeURIComponent(h.slice(1)))) a.setAttribute('href', a.getAttribute('href').split('#')[0] + h);
     var c = readConsent(); if (c && c.analytics) track('language_switch', { from: LANG, to: to });
   });
+
+  // 28.11 header language switcher (LANG_SWITCH_SPEC): button + listbox; closes on choice, outside click, Escape; arrows move; the URL is the language
+  (function () {
+    var box = $('.lsd'); if (!box) return;
+    var btn = box.querySelector('.lsd-btn'), menu = box.querySelector('.lsd-menu');
+    var opts = [].slice.call(menu.querySelectorAll('[role=option]'));
+    var cur = menu.querySelector('[aria-selected=true]') || opts[0];
+    function isOpen() { return btn.getAttribute('aria-expanded') === 'true'; }
+    function open(focusOpt) { menu.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); if (focusOpt) cur.focus(); }
+    function close(back) { if (!isOpen()) return; menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); if (back) btn.focus(); }
+    btn.addEventListener('click', function (e) { if (isOpen()) close(false); else open(e.detail === 0); });
+    btn.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(true); } });
+    menu.addEventListener('keydown', function (e) {
+      var i = opts.indexOf(doc.activeElement);
+      if (e.key === 'ArrowDown') { e.preventDefault(); opts[(i + 1) % opts.length].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); opts[(i - 1 + opts.length) % opts.length].focus(); }
+      else if (e.key === 'Home') { e.preventDefault(); opts[0].focus(); }
+      else if (e.key === 'End') { e.preventDefault(); opts[opts.length - 1].focus(); }
+      else if (e.key === 'Escape') { e.preventDefault(); close(true); }
+      else if (e.key === 'Tab') { close(false); }
+      else if (e.key === ' ' && i > -1) { e.preventDefault(); opts[i].click(); }
+    });
+    menu.addEventListener('click', function (e) { var a = e.target.closest('[role=option]'); if (a && a.getAttribute('aria-selected') === 'true') { e.preventDefault(); close(true); } });
+    doc.addEventListener('click', function (e) { if (isOpen() && !box.contains(e.target)) close(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) close(true); });
+  })();
 
   /* ------------------------------------------------------------------ background videos
      Poster first. The video is loaded only near its section, never under reduced motion or Save-Data. */

@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
- <url><loc>https://cherrixlabs.com/</loc><lastmod>2026-11-20</lastmod></url>
- <url><loc>https://cherrixlabs.com/quotes/</loc><lastmod>2026-11-20</lastmod></url>
- <url><loc>https://cherrixlabs.com/privacy/</loc><lastmod>2026-11-20</lastmod></url>
- <url><loc>https://cherrixlabs.com/accessibility/</loc><lastmod>2026-11-20</lastmod></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+ <url><loc>https://cherrixlabs.com/</loc><lastmod>2026-11-28</lastmod>
+  <xhtml:link rel="alternate" hreflang="he" href="https://cherrixlabs.com/"/>
+  <xhtml:link rel="alternate" hreflang="en" href="https://cherrixlabs.com/en/"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://cherrixlabs.com/"/>
+ </url>
+ <url><loc>https://cherrixlabs.com/quotes/</loc><lastmod>2026-11-28</lastmod>
+  <xhtml:link rel="alternate" hreflang="he" href="https://cherrixlabs.com/quotes/"/>
+  <xhtml:link rel="alternate" hreflang="en" href="https://cherrixlabs.com/en/quotes/"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://cherrixlabs.com/quotes/"/>
+ </url>
+ <url><loc>https://cherrixlabs.com/privacy/</loc><lastmod>2026-11-28</lastmod>
+  <xhtml:link rel="alternate" hreflang="he" href="https://cherrixlabs.com/privacy/"/>
+  <xhtml:link rel="alternate" hreflang="en" href="https://cherrixlabs.com/en/privacy/"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://cherrixlabs.com/privacy/"/>
+ </url>
+ <url><loc>https://cherrixlabs.com/accessibility/</loc><lastmod>2026-11-28</lastmod>
+ </url>
+ <url><loc>https://cherrixlabs.com/en/</loc><lastmod>2026-11-28</lastmod>
+  <xhtml:link rel="alternate" hreflang="he" href="https://cherrixlabs.com/"/>
+  <xhtml:link rel="alternate" hreflang="en" href="https://cherrixlabs.com/en/"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://cherrixlabs.com/"/>
+ </url>
+ <url><loc>https://cherrixlabs.com/en/quotes/</loc><lastmod>2026-11-28</lastmod>
+  <xhtml:link rel="alternate" hreflang="he" href="https://cherrixlabs.com/quotes/"/>
+  <xhtml:link rel="alternate" hreflang="en" href="https://cherrixlabs.com/en/quotes/"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://cherrixlabs.com/quotes/"/>
+ </url>
+ <url><loc>https://cherrixlabs.com/en/privacy/</loc><lastmod>2026-11-28</lastmod>
+  <xhtml:link rel="alternate" hreflang="he" href="https://cherrixlabs.com/privacy/"/>
+  <xhtml:link rel="alternate" hreflang="en" href="https://cherrixlabs.com/en/privacy/"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://cherrixlabs.com/privacy/"/>
+ </url>
 </urlset>

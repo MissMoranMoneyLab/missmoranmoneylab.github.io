@@ -1229,3 +1229,14 @@ dialog.pop.instant::backdrop{opacity:1;transition:none}
 .inner .back:hover,.backrow .back:hover{color:var(--ink-3)}
 .backrow{width:1104px;max-width:calc(100% - 32px);margin:-40px auto 12px}
 @media (max-width:767px){.backrow{width:358px;margin:-24px auto 8px}}
+/* 27.11.2026 language switcher עברית / English (no design yet: existing nav and footer link styles, no new colours, no icons; design to confirm) */
+.lsw{display:inline-flex;align-items:center;gap:12px}
+@media (min-width:1080px){.site-header nav{display:flex;align-items:center;gap:28px}}
+.site-header .lsw a,.mmenu .lsw a{font-size:13px;color:rgba(255,255,255,.82);text-decoration:none;transition:color .15s ease}
+.site-header .lsw a:hover,.mmenu .lsw a:hover,.site-header .lsw a[aria-current=true],.mmenu .lsw a[aria-current=true]{color:#fff}
+.lsw a[aria-current=true]{font-weight:500}
+.mmenu .lsw{padding-top:18px}
+/* 27.11 header fit (QA of the English build): the desktop nav shows only the other language; the CTA never wraps */
+.site-header .lsw a[aria-current=true]{display:none}
+.nav-cta{white-space:nowrap}
+.site-header .lsw a{padding:3px 0;border-bottom:1.5px solid transparent}

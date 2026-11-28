@@ -37,7 +37,19 @@
   };
 
   var doc = document, root = doc.documentElement;
-  var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+  /* 27.11.2026 English site: user-visible strings per language (same keys), chosen by <html lang>.
+     Payloads, IDs, consent values and event names do not change with the language. */
+  var LANG = root.lang === 'en' ? 'en' : 'he', RTL = LANG === 'he', HOME = LANG === 'en' ? '/en/' : '/';
+  var STR = {
+    he: { menuOpen: 'פתיחת תפריט', menuClose: 'סגירת תפריט', open: 'פתיחת ', close: 'סגירת ', brand: 'המעבדה לחקר הכסף', profile: 'מיפוי התנהגותי',
+          video: 'וידאו', req: 'צריך למלא את השדה הזה.', badMail: 'נראה שכתובת האימייל לא תקינה. כדאי לבדוק שוב.',
+          heartOn: 'הסרת לב מהציטוט. ', heartOff: 'הוספת לב לציטוט. ', heartN: 'מספר הלבבות: ', stale: 'המונה יתעדכן בהמשך' },
+    en: { menuOpen: 'Open menu', menuClose: 'Close menu', open: 'Open ', close: 'Close ', brand: 'The Money Research Lab', profile: 'Behavioral Profile',
+          video: 'Video', req: 'Please fill in this field.', badMail: "That email address doesn't look right. Please check it and try again.",
+          heartOn: 'Remove like from this quote. ', heartOff: 'Like this quote. ', heartN: 'Heart count: ', stale: 'The count will update later.' }
+  };
+  var S = STR[LANG];
+  var RM =window.matchMedia('(prefers-reduced-motion: reduce)');
   var MOB = window.matchMedia('(max-width: 899px)');
   var $ = function (s, c) { return (c || doc).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); };
@@ -74,7 +86,7 @@
     if (open) { mmenu.hidden = false; requestAnimationFrame(function () { mmenu.classList.add('open'); }); }
     else { mmenu.classList.remove('open'); setTimeout(function () { if (!mmenu.classList.contains('open')) mmenu.hidden = true; }, 260); }
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    menuBtn.setAttribute('aria-label', open ? 'סגירת תפריט' : 'פתיחת תפריט');
+    menuBtn.setAttribute('aria-label', open ? S.menuClose : S.menuOpen);
     doc.body.classList.toggle('menu-open', open);
     var l1 = $('.l1', menuBtn), l2 = $('.l2', menuBtn);
     l1.setAttribute('d', open ? 'M4 3l14 14' : 'M1 5h20');
@@ -89,7 +101,7 @@
   // current section in the nav (homepage)
   if ('IntersectionObserver' in window && doc.body.getAttribute('data-page') === 'home') {
     var navMap = {};
-    $$('.nav-links a').forEach(function (a) { var h = a.getAttribute('href'); if (h.indexOf('/#') === 0) navMap[h.slice(2)] = a; });
+    $$('.nav-links a').forEach(function (a) { var h = a.getAttribute('href'); if (h.indexOf(HOME + '#') === 0) navMap[h.slice(HOME.length + 1)] = a; });
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         var a = navMap[e.target.id]; if (!a) return;
@@ -99,8 +111,15 @@
     }, { rootMargin: '-45% 0px -50% 0px' });
     Object.keys(navMap).concat(['top']).forEach(function (id) { var s = doc.getElementById(id); if (s) io.observe(s); });
   } else if (doc.body.getAttribute('data-page') === 'quotes') {
-    var qa = $('.nav-links a[href="/quotes/"]'); if (qa) qa.setAttribute('aria-current', 'true');
+    var qa = $('.nav-links a[href="' + HOME + 'quotes/"]'); if (qa) qa.setAttribute('aria-current', 'true');
   }
+  // 27.11 language switcher: keep the #section when the other page has the same ID (both languages share the IDs); event after consent only
+  doc.addEventListener('click', function (e) {
+    var a = e.target.closest('.lsw a[data-lang]'); if (!a) return;
+    var to = a.getAttribute('data-lang'); if (to === LANG) return;
+    var h = location.hash; if (h && h.length > 1 && doc.getElementById(decodeURIComponent(h.slice(1)))) a.setAttribute('href', a.getAttribute('href').split('#')[0] + h);
+    var c = readConsent(); if (c && c.analytics) track('language_switch', { from: LANG, to: to });
+  });
 
   /* ------------------------------------------------------------------ background videos
      Poster first. The video is loaded only near its section, never under reduced motion or Save-Data. */
@@ -187,13 +206,13 @@
         pcs.forEach(function (o) {
           if (o !== card && o.classList.contains('open')) closeP(o);
         });
-        if (open) { card.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); btn.setAttribute('aria-label', 'סגירת ' + $('h3', card).textContent); track('process_open', { stage: $('h3', card).textContent }); }
+        if (open) { card.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); btn.setAttribute('aria-label', S.close + $('h3', card).textContent); track('process_open', { stage: $('h3', card).textContent }); }
         else closeP(card);
       });
     });
     function closeP(card) {
       var b = $('.plus', card); card.classList.remove('open'); b.setAttribute('aria-expanded', 'false');
-      b.setAttribute('aria-label', 'פתיחת ' + $('h3', card).textContent);
+      b.setAttribute('aria-label', S.open + $('h3', card).textContent);
       b.classList.add('closing'); setTimeout(function () { b.classList.remove('closing'); }, 560);
     }
     var pdots = $$('.process .dots i');
@@ -230,8 +249,8 @@
       $('[data-m=name]', mob).textContent = data[cur].name;
       $('[data-m=id]', mob).textContent = data[cur].id;
       $('[data-m=id2]', mob).textContent = data[cur].id;
-      var content = '<div class="brand">המעבדה לחקר הכסף</div><div class="bn">' + data[cur].name + '</div>' +
-        '<p class="desc">' + $('.desc', p).textContent + '</p><p class="quote">' + $('.quote', p).textContent + '</p><h3>מיפוי התנהגותי</h3>' +
+      var content = '<div class="brand">' + S.brand + '</div><div class="bn">' + data[cur].name + '</div>' +
+        '<p class="desc">' + $('.desc', p).textContent + '</p><p class="quote">' + $('.quote', p).textContent + '</p><h3>' + S.profile + '</h3>' +
         $$('.mr', p).map(function (m) { return m.outerHTML; }).join('');
       $('[data-m=content]', mob).innerHTML = content;
       $$('.bars i', $('[data-m=content]', mob)).forEach(function (i) { i.classList.remove('f'); });
@@ -289,17 +308,17 @@
       $('[data-m=prev]', mob).addEventListener('click', function () { step(-1); });
       var sx = null;
       card.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
-      card.addEventListener('touchend', function (e) { if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 45) step(dx > 0 ? 1 : -1); sx = null; });
+      card.addEventListener('touchend', function (e) { if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 45) step((dx > 0) === RTL ? 1 : -1); sx = null; });   // 27.11: in English a swipe to the left is "next"
     }
   }
 
-  /* ------------------------------------------------------------------ carousels (RTL: next scrolls toward the left) */
+  /* ------------------------------------------------------------------ carousels (RTL: next scrolls toward the left; 27.11 English: toward the right) */
   function carousel(track_, next, prev) {
     if (!track_) return;
     var stepW = function () { var c = track_.children[0]; var g = parseFloat(getComputedStyle(track_).columnGap || getComputedStyle(track_).gap) || 0; return c ? c.getBoundingClientRect().width + g : 300; };
-    var smooth = RM.matches ? 'auto' : 'smooth';
-    next && next.addEventListener('click', function () { track_.scrollBy({ left: -stepW(), behavior: smooth }); });
-    prev && prev.addEventListener('click', function () { track_.scrollBy({ left: stepW(), behavior: smooth }); });
+    var smooth = RM.matches ? 'auto' : 'smooth', dir = RTL ? -1 : 1;
+    next && next.addEventListener('click', function () { track_.scrollBy({ left: dir * stepW(), behavior: smooth }); });
+    prev && prev.addEventListener('click', function () { track_.scrollBy({ left: -dir * stepW(), behavior: smooth }); });
     var upd = function () {
       var max = track_.scrollWidth - track_.clientWidth, x = Math.abs(track_.scrollLeft);
       if (prev) prev.disabled = x < 4; if (next) next.disabled = x > max - 4;
@@ -427,7 +446,7 @@
     var d = doc.getElementById('dlg-video'), fr = $('[data-vframe]', d);
     var ifr = doc.createElement('iframe');
     ifr.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(b.getAttribute('data-video-id')) + '?autoplay=1&rel=0&modestbranding=1';
-    ifr.title = b.getAttribute('data-video-title') || 'וידאו';
+    ifr.title = b.getAttribute('data-video-title') || S.video;
     ifr.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; ifr.referrerPolicy = 'strict-origin-when-cross-origin';
     fr.innerHTML = ''; fr.appendChild(ifr);
     openDlg('dlg-video', b);
@@ -440,8 +459,8 @@
     $$('.fld', form).forEach(function (f) {
       var c = $('input,textarea,select', f); if (!c || c.type === 'radio') return;
       var v = (c.value || '').trim(), bad = (c.required && !v) || (c.type === 'email' && v && !EMAIL.test(v));
-      if (c.type === 'email' && c.required && !v) { var em = $('.em', f); if (em) em.textContent = 'צריך למלא את השדה הזה.'; }
-      else if (c.type === 'email') { var em2 = $('.em', f); if (em2) em2.textContent = 'נראה שכתובת האימייל לא תקינה. כדאי לבדוק שוב.'; }
+      if (c.type === 'email' && c.required && !v) { var em = $('.em', f); if (em) em.textContent = S.req; }
+      else if (c.type === 'email') { var em2 = $('.em', f); if (em2) em2.textContent = S.badMail; }
       f.classList.toggle('err', bad); c.setAttribute('aria-invalid', bad ? 'true' : 'false');
       if (bad) { ok = false; first = first || c; }
     });
@@ -478,7 +497,7 @@
     d._qt = setTimeout(function () {
       var h0 = card.getBoundingClientRect().height;
       fw.hidden = true; form.reset();
-      ok.innerHTML = '<img src="/assets/img/lab-logo-black.png" alt="" width="64" height="64"><p dir="rtl" tabindex="-1">' + ok.getAttribute('data-ok') + '</p>';
+      ok.innerHTML = '<img src="/assets/img/lab-logo-black.png" alt="" width="64" height="64"><p dir="' + (RTL ? 'rtl' : 'ltr') + '" tabindex="-1">' + ok.getAttribute('data-ok') + '</p>';
       card.classList.add('qdone');
       if (!rm) {
         var h1 = card.getBoundingClientRect().height;
@@ -609,7 +628,7 @@
     var setHeart = function (btn, on, n) {
       btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       $('span', btn).textContent = fmt(n); btn.setAttribute('data-n', n);
-      btn.setAttribute('aria-label', (on ? 'הסרת לב מהציטוט. ' : 'הוספת לב לציטוט. ') + 'מספר הלבבות: ' + n);
+      btn.setAttribute('aria-label', (on ? S.heartOn : S.heartOff) + S.heartN + n);
     };
     // hearts: counts live in Firestore (one document per quote, field n); this browser remembers its own hearts in localStorage
     var FB = CONFIG.firebase, DB = 'projects/' + FB.projectId + '/databases/(default)/documents', API = 'https://firestore.googleapis.com/v1/';
@@ -617,7 +636,7 @@
       return fetch(API + path + '?key=' + FB.apiKey, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
         .then(function (r) { if (!r.ok) throw new Error('firestore ' + r.status); return r.json(); });
     };
-    var stale = function (btn, yes) { btn.classList.toggle('stale', yes); if (yes) btn.title = 'המונה יתעדכן בהמשך'; else btn.removeAttribute('title'); };
+    var stale = function (btn, yes) { btn.classList.toggle('stale', yes); if (yes) btn.title = S.stale; else btn.removeAttribute('title'); };
     cards.forEach(function (c) {
       var id = c.getAttribute('data-id'), btn = $('.heart', c);
       setHeart(btn, !!mine[id], mine[id] ? 1 : 0);

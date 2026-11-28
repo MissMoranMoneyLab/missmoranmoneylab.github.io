@@ -1,0 +1,93 @@
+/* The Money Research Lab · English pages only (/en/), linked after site.css by partials.head() on English pages.
+   27.11.2026 (headless run): Inter per TYPOGRAPHY_BRIEF_EN (26.11), and the left-to-right mirror of the direction-specific
+   rules in site.css. Every rule is scoped to html[lang="en"], so even if this file were loaded elsewhere Hebrew would not change.
+   Sizes and line heights are the Hebrew ones; only heading letter-spacing follows the brief. */
+
+/* ---------- Inter, self-hosted like Heebo (SIL OFL, inputs/fonts/Inter-LICENSE.txt) ---------- */
+@font-face{font-family:Inter;font-weight:400;font-display:swap;src:url(../fonts/inter-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:Inter;font-weight:500;font-display:swap;src:url(../fonts/inter-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:Inter;font-weight:700;font-display:swap;src:url(../fonts/inter-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122}
+html[lang="en"] body{font-family:Inter,Arial,sans-serif}
+html[lang="en"] .fld input,html[lang="en"] .fld textarea,html[lang="en"] .fld select{font-family:Inter,Arial,sans-serif}
+html[lang="en"] [lang="he"]{font-family:Heebo,Arial,sans-serif}   /* the "עברית" switcher label */
+
+/* ---------- headings: brief letter-spacing, balanced lines ---------- */
+html[lang="en"] h1,html[lang="en"] h2,html[lang="en"] h3,html[lang="en"] h4{text-wrap:balance}
+html[lang="en"] .hero h1{letter-spacing:-4px}
+html[lang="en"] .h-sec,html[lang="en"] .fo h2{letter-spacing:-2.4px}
+html[lang="en"] .cform h2{letter-spacing:-.9px}
+@media (max-width:899px){
+  /* "The Money / Research Lab" on two lines; the size steps down only where "Research Lab" would not fit (like the Hebrew desktop clamp) */
+  html[lang="en"] .hero h1{letter-spacing:-2.9px;font-size:min(68px,calc((100vw - 32px) / 6.2));white-space:nowrap}
+  html[lang="en"] .h-sec,html[lang="en"] .fo h2,html[lang="en"] .qfan h2{letter-spacing:-.9px}
+  /* English lines are longer than the Hebrew ones: these may wrap instead of running off the screen */
+  html[lang="en"] .qfan h2{white-space:normal}
+  html[lang="en"] .hero p{white-space:normal;text-wrap:balance}
+  html[lang="en"] .hbtns{flex-wrap:wrap}
+}
+@media (min-width:900px){html[lang="en"] .particip h2{font-size:min(60px,calc((100vw - 160px) / 20.5))}}
+
+/* ---------- left-to-right mirror of site.css ---------- */
+html[lang="en"] .skip{right:auto;left:8px}
+html[lang="en"] .sw::after{right:auto;left:2px;transition:left .2s var(--ease)}
+html[lang="en"] .sw[aria-checked=true]::after{left:22px}
+html[lang="en"] .menu-btn{margin-left:0;margin-right:-11px}
+/* process cards: the + and the open title start at the left */
+html[lang="en"] .pcard .plus{left:auto;right:18px}
+html[lang="en"] .pcard.open h3{right:auto;left:108px;text-align:left}
+html[lang="en"] .pcard.open .ico{right:auto;left:34px}
+@media (max-width:899px){
+  html[lang="en"] .pcard.open h3{right:auto;left:84px}
+  html[lang="en"] .pcard.open .ico{right:auto;left:24px}
+}
+/* personas (desktop): sculpture and text panels change sides; tag card corners swap */
+html[lang="en"] .pfig{left:auto;right:203px}
+html[lang="en"] .pside{right:auto;left:360px}
+html[lang="en"] .ptag .ml{left:auto;right:24px}
+html[lang="en"] .ptag .brandl{right:auto;left:26px}
+html[lang="en"] .bars i::after{transform-origin:left}
+/* personas (mobile card) */
+html[lang="en"] .pcardm .name{right:auto;left:22px}
+html[lang="en"] .pcardm .ml{left:auto;right:22px}
+html[lang="en"] .pcardm .who{left:auto;right:calc(50% + 67px)}
+html[lang="en"] .pcardm .back .x{left:auto;right:22px}
+html[lang="en"] .pcardm .back .ml{right:auto;left:22px}
+/* lab-now cards and carousel arrows: + at the bottom right, arrows at the end (right) */
+html[lang="en"] .lcard .plus{left:auto;right:28px}
+@media (max-width:899px){html[lang="en"] .lcard .plus{left:auto;right:22px}}
+html[lang="en"] .car-nav{direction:ltr}
+/* founder */
+html[lang="en"] .fo-me{text-align:left}
+/* pop-ups: text starts left, the close button sits at the right */
+html[lang="en"] .pop .card{text-align:left}
+html[lang="en"] .pop .x{left:auto;right:22px}
+html[lang="en"] .ckp .x{left:auto;right:24px}
+html[lang="en"] .tabm .x{left:auto;right:24px}
+@media (max-width:899px){
+  html[lang="en"] .pop .x{left:auto;right:14px}
+  html[lang="en"] .ckp .x{left:auto;right:24px}
+  html[lang="en"] .tabm .x{left:auto;right:16px}
+}
+/* "What Happens at the Lab?" and "I'm Moran" windows: the art moves to the right; photos are flipped back, not mirrored */
+html[lang="en"] .tabm .art{left:auto;right:0;transform:scaleX(-1)}
+html[lang="en"] .tabm .art img,html[lang="en"] .me .art .ph{transform:scaleX(-1)}
+html[lang="en"] .cr .pq{padding:0 0 0 18px;border-right:0;border-left:2px solid #65D8D3}
+@media (max-width:899px){html[lang="en"] .cr .pq{padding-right:0;padding-left:14px}}
+/* forms and inner pages */
+html[lang="en"] .fld input[type=email],html[lang="en"] .pop.form.prof .fld input[type=tel]{text-align:left}
+html[lang="en"] .count{text-align:right}
+html[lang="en"] .inner ul{padding-right:0;padding-left:22px}
+/* 27.11 header fit: the English nav is wider than the Hebrew one, so the menu header holds up to 1399 px */
+@media (min-width:1080px) and (max-width:1399px){
+  html[lang="en"] .site-header .in{grid-template-columns:1fr auto;padding:0 16px}
+  html[lang="en"] .site-header nav{display:none}
+  html[lang="en"] .site-header .menu-btn{display:inline-flex;grid-column:2;grid-row:1}
+  html[lang="en"] .site-header .logo,html[lang="en"] .site-header .nav-cta{grid-column:1;grid-row:1;justify-self:start;transition:opacity .35s ease,transform .35s cubic-bezier(.25,.1,.25,1),visibility 0s linear 0s}
+  html[lang="en"] .site-header .nav-cta{display:inline-block;font-size:13px;line-height:1.25;padding:6px 14px;opacity:0;visibility:hidden;transform:translateY(6px);transition-delay:0s,0s,.35s}
+  html[lang="en"] .site-header.scrolled .logo{opacity:0;visibility:hidden;transform:translateY(-6px);transition-delay:0s,0s,.35s}
+  html[lang="en"] .site-header.scrolled .nav-cta{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  html[lang="en"] body.menu-open .site-header.scrolled .logo{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  html[lang="en"] body.menu-open .site-header.scrolled .nav-cta{opacity:0;visibility:hidden;transform:translateY(6px)}
+}
+/* 27.11: mobile story diagram, English labels are longer; tighter side padding so Knowledge / Emotion / Decision do not touch */
+html[lang="en"] .flow[data-flow="m"] .tagp[data-k="know"],html[lang="en"] .flow[data-flow="m"] .tagp[data-k="feel"],html[lang="en"] .flow[data-flow="m"] .tagp[data-k="dec"]{padding-left:13px!important;padding-right:13px!important}
